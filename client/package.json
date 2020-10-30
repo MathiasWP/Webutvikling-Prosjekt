@@ -1,0 +1,72 @@
+{
+  "name": "quiz-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/extract-text-webpack-plugin": "^3.0.4",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.19.3",
+    "@types/react": "^16.9.55",
+    "@types/react-dom": "^16.9.9",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0",
+    "typescript": "^4.0.5",
+    "web-vitals": "^0.2.4"
+  },
+  "scripts": {
+    "start": "webpack serve --mode development --env development --watch",
+    "build": "webpack --mode production",
+    "start-react-old": "react-scripts start",
+    "build-react-old": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@babel/runtime": "^7.12.1",
+    "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
+    "@types/webpack": "^4.41.24",
+    "@types/webpack-dev-server": "^3.11.0",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "@webpack-cli/serve": "^1.0.1",
+    "babel-loader": "^8.1.0",
+    "eslint": "^7.12.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.1.2",
+    "sass": "^1.27.1",
+    "sass-loader": "^10.0.4",
+    "ts-node": "^9.0.0",
+    "webpack": "^5.3.1",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
