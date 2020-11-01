@@ -1,14 +1,21 @@
 .App {
-    text-align: center;
-      
+  text-align: center;
+  background-color: #2567ec;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
   &-header {
-      background-color: #2567ec;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      color: white;
+    font-size: 4rem;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }

@@ -1,12 +1,26 @@
+import { db, auth } from './firebase'
+
 class QuizService {
-  get(id: number) {
-    return new Promise((resolve, reject) => {
-        /**
-         * CLOUD-FUNCTION FIRED FROM HERE
-         */
-      });
+  test() {
+    return db.collection('test').add({hello: 'world'});
+  }
+
+  checkCurrentUser() {
+    return Promise.resolve(auth.currentUser);
+  };
+  
+  createUser(email, password) {
+    return auth.createUserWithEmailAndPassword(email, password)
     };
   
+  
+  logInUser(email, password) {
+    return auth.signInWithEmailAndPassword(email, password);
+  };
+  
+  logOutUser() {
+    return auth.signOut()
+  }
 
   getAll() {
     return new Promise((resolve, reject) => {
