@@ -14,30 +14,30 @@
     color: white;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   }
-}
 
-#front-module {
-  display: flex;
-  flex-direction: column;
-  padding: 3rem 5rem;
-  background-color: white;
-  border-radius: 5px;
-
-  button {
-    font-size: 4rem;
-    margin: 2rem;
-    cursor: pointer;
-    padding: 1rem 2rem;
-    background-color: #ff7380;
+  #front-module {
+    display: flex;
+    flex-direction: column;
+    padding: 3rem 5rem;
+    background-color: white;
     border-radius: 5px;
-    border: 2px solid transparent;
-    color: white;
-    transition: all 300ms;
 
-    &:hover {
-      background-color: white;
-      color: #ff7380;
-      border: 2px solid #ff7380;
+    button {
+      font-size: 4rem;
+      margin: 2rem;
+      cursor: pointer;
+      padding: 1rem 2rem;
+      background-color: #ff7380;
+      border-radius: 5px;
+      border: 2px solid transparent;
+      color: white;
+      transition: all 300ms;
+
+      &:hover {
+        background-color: white;
+        color: #ff7380;
+        border: 2px solid #ff7380;
+      }
     }
   }
 }

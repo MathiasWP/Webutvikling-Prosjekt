@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FrontPage from './FrontPage/FrontPage';
 import GroupRoom from './GroupRoom/GroupRoom';
+import CreateGroupRoom from './CreateGroupRoom/CreateGroupRoom';
 import NoMatch from './NoMatch/NoMatch';
 import SinglePlayer from './SinglePlayer/SinglePlayer';
 import Start from './Start/Start';
@@ -51,7 +52,10 @@ function App() {
 
   return (
     <div className="App">
-      <nav><Link to="/:user">Profile page</Link></nav>
+      <nav>
+        <Link to="/">Startpage</Link>
+        <Link to="/:user">Profile page</Link>
+        </nav>
       <Switch>
        <Route exact path="/">
         <FrontPage />
@@ -62,13 +66,16 @@ function App() {
       <Route path="/singleplayer">
         <SinglePlayer />
       </Route>
-      <Route path="/group/:id">
+      <Route path="/grouproom">
+        <CreateGroupRoom />
+      </Route>
+      <Route exact path="/grouproom/:id">
         <GroupRoom />
       </Route>
-      <Route path="/:user">
+      <Route exact path="/:user">
         <UserProfile />
       </Route>
-      <Route path="/:user/create">
+      <Route exact path="/:user/create">
         <CreateQuiz />
       </Route>
       <Route>

@@ -7,20 +7,20 @@ import './Start.scss';
 function Start() {
     const history = useHistory();
 
-    function goToPlay() {
-      history.push("/start");
+    function goToSinglePlayer() {
+      history.push("/singleplayer");
     }
-    function goToCreate() {
-      history.push("/:user/create");
+    function goToGroupRoom() {
+      history.push("/grouproom");
     }
 
 
   return (
     <div className="Start">
-      <h1>Quiz-time!</h1>
-      <div id="front-module">
-        <button onClick={goToPlay}>Play</button>
-        <button onClick={goToCreate}>Create quiz</button>
+    <h3>Choose your way:</h3>
+      <div id="start-module">
+        <button onClick={goToSinglePlayer}>Singleplayer</button>
+        <button onClick={goToGroupRoom}>Grouproom</button>
       </div>
     </div>
   )
