@@ -5,7 +5,7 @@
 1. Create firebase project at https://firebase.google.com/
 2. Activate firestore on project
 3. Activate authentication with email and password (or choose whatever you want and edit the source code)
-4. Set up billing profile and plan vhoose the Blaze plan (don't worry, you won't exceed the minimium limit for generating payments over 0 NOK)
+4. Set up billing profile and plan choose the Blaze plan (don't worry, you won't exceed the minimium limit for generating payments over 0 NOK)
 5. Install `npm i firebase-tools -g`
 6. Run `firebase login`
 7. Run `firebase init firestore`
