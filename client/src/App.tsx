@@ -1,4 +1,14 @@
-import React ,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Route, Switch } from 'react-router';
+import { BrowserRouter, Link } from 'react-router-dom';
+import FrontPage from './FrontPage/FrontPage';
+import GroupRoom from './GroupRoom/GroupRoom';
+import NoMatch from './NoMatch/NoMatch';
+import SinglePlayer from './SinglePlayer/SinglePlayer';
+import Start from './Start/Start';
+import UserProfile from './UserProfile/UserProfile';
+import CreateQuiz from './CreateQuiz/CreateQuiz';
+
 import './App.scss';
 import quizService from './service/quiz-service'
 
@@ -41,22 +51,31 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        Hei og velkommen til Quiz!
-      </header>
-      <div className="App-body">
-        <input type='text' placeholder='brukernavn' onChange={(e) => setEmail(e.currentTarget.value)}/>
-        <input type="password" placeholder='passord' onChange={(e) => setPassword(e.currentTarget.value)}/>
-        <button onClick={createUser}>Lag bruker</button>
-        <button onClick={loginUser}>Logg inn bruker</button>
-        {
-          currentUser &&
-        <div>
-        Logged in user: {currentUser.uid}
-        <button onClick={logOutUser}>Logg ut</button>
-        </div>
-        }
-      </div>
+      <nav><Link to="/:user">Profile page</Link></nav>
+      <Switch>
+       <Route exact path="/">
+        <FrontPage />
+      </Route>
+      <Route path="/start">
+        <Start />
+      </Route>
+      <Route path="/singleplayer">
+        <SinglePlayer />
+      </Route>
+      <Route path="/group/:id">
+        <GroupRoom />
+      </Route>
+      <Route path="/:user">
+        <UserProfile />
+      </Route>
+      <Route path="/:user/create">
+        <CreateQuiz />
+      </Route>
+      <Route>
+        <NoMatch />
+      </Route>
+     </Switch>
+    
     </div>
   );
 }
