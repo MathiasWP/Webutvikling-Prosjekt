@@ -6,46 +6,33 @@ import quizService from './quiz-service';
  */
 const router = express.Router();
 
-router.get('/test', (request, response) => {
+router.put('/user/:id', (request, response) => {
+    const { id } = request.params;
+
     quizService
-    .test()
+    .getUserInfoById(id)
     .then(data => response.send(data))
     .catch(error => response.status(500).send(error))
 })
 
-router.get('/user', (request, response) => {
-    return quizService
-    .checkCurrentUser()
+router.post('/adduser', (request, response) => {
+    const body = request.body;
+    const userData = body.data.user.user;
+
+    quizService
+    .addUser(userData)
+    .then(data => response.send(data))
+    .catch(error => response.status(500).send(error))
 })
 
-router.post('/createUser', (request, response) => {
+router.post('/changeusername', (request, response) => {
     const body = request.body;
-    const email = body.email;
-    const password = body.password;
-    
-    quizService
-        .createUser(email, password)
-        .then((data) => response.send(data))
-        .catch((error: Error) => response.status(500).send(error));
-});
+    const {userName, userToChange} = body.data;
 
-router.post('/login', (request, response) => {
-    const body = request.body;
-    const email = body.email;
-    const password = body.password;
-    
     quizService
-        .logInUser(email, password)
-        .then((data) => response.send(data))
-        .catch((error: Error) => response.status(500).send(error));
-});
-
-router.post('/logout', (request, response) => {
-    quizService
-        .logOutUser()
-        .then((data) => response.send(data))
-        .catch((error: Error) => response.status(500).send(error));
-});
-
+    .changeUserName(userName, userToChange)
+    .then(data => response.send(data))
+    .catch(error => response.status(500).send(error))
+})
 
 export default router;

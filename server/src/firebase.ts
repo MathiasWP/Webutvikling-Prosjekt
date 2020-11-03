@@ -13,8 +13,6 @@ firebase.initializeApp({
   ...config
 });
 
-firebase.auth.Auth.Persistence.SESSION;
-
 export const auth = firebase.auth();
-export const db = admin.firestore();
+export const db = firebase.firestore();
 export const webApi = functions.https.onRequest(app)
