@@ -1,0 +1,15 @@
+.input {
+  border-radius: 5px;
+  border: 4px solid transparent;
+  padding: 0.2rem 1rem;
+  outline: none;
+
+  &:hover {
+    border: 4px solid rgb(127, 189, 247);
+  }
+
+  &:focus,
+  &:active {
+    border: 4px solid rgb(238, 205, 20);
+  }
+}

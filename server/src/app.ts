@@ -5,6 +5,7 @@ import connectLivereload from 'connect-livereload';
 import path from 'path';
 
 const CLIENT_DIR = '../../../client/public'; // This is relative server/dist/src
+const CLIENT_DIR_STATIC = '../../../client/public//static'; // This is relative server/dist/src
 
 // LiveReload setup - TODO: Make this work
 const liveReloadServer = livereload.createServer();
@@ -20,6 +21,12 @@ const app = express();
 
 // Serve static and watch client files
 app.use(express.static(path.join(__dirname, CLIENT_DIR)));
+
+app.use('/static', express.static(path.join(__dirname, CLIENT_DIR_STATIC)));
+app.get('*', function(req, res) {
+  res.sendFile('index.html', {root: path.join(__dirname, CLIENT_DIR)});
+});
+
 app.use(connectLivereload());
 
 // Use express json

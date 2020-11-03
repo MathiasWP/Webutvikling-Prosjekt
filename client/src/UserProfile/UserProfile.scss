@@ -1,0 +1,29 @@
+.UserProfile {
+  height: 100vh;
+  min-height: 30rem;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  padding-top: 10rem;
+  align-content: flex-start;
+  font-size: 3rem;
+  color: white;
+
+  #profile-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    span {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin: 3rem 0;
+    }
+  }
+
+  #quizes {
+    margin-top: 5rem;
+  }
+}

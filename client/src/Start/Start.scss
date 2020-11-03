@@ -1,0 +1,65 @@
+@keyframes mutate {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.Start {
+  height: 100vh;
+  min-height: 30rem;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+
+  h3 {
+    color: white;
+    font-size: 5rem;
+    text-transform: uppercase;
+    animation: mutate 3s ease-in-out 0s infinite; // idk what this is tbh maybe remove
+  }
+
+  #start-module {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
+    z-index: 10;
+
+    button {
+      font-size: 6rem;
+      margin: 2rem;
+      cursor: pointer;
+      padding: 1rem 2rem;
+      background-color: transparent;
+      border-radius: 5px;
+      border: 2px solid transparent;
+      color: white;
+      position: relative;
+
+      &:after {
+        content: "";
+        width: 100%;
+        bottom: 0;
+        height: 1rem;
+        transform-origin: center;
+        background-color: white;
+        position: absolute;
+        left: 0;
+        transform: scaleX(0);
+        transition: transform 500ms;
+      }
+
+      &:hover:after {
+        transform: scaleX(1);
+      }
+    }
+  }
+}
