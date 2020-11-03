@@ -1,3 +1,5 @@
 *
 !readme.md
 !.gitignore
+serviceAccount.json
+config.ts
