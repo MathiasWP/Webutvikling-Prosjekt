@@ -26,3 +26,5 @@ firestore.rules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+client/public/bundle.js
+client/public/bundle.js.map
