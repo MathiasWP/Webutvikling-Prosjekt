@@ -1,61 +1,45 @@
 import { db, auth } from './firebase'
 
-class QuizService {
-  test() {
-    return db.collection('test').add({hello: 'world'});
-  }
+class QuizService {  
 
-  checkCurrentUser() {
-    return Promise.resolve(auth.currentUser);
+  getUserInfoById(id: string) {
+    console.log(id)
+    return db
+      .collection("users")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+            return doc.data();
+        } else {
+            return "No such document!"
+        }
+      }).catch((error) => {
+          return error
+      });
   };
   
-  createUser(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password)
+  
+  addUser(user: any) {
+    const username = user.email.split('@')[0]; // Taking email name as username
+    const timestamp = new Date().toUTCString();
+
+    const data = {
+      name: username,
+      created: timestamp,
+      quizes: {}
     };
-  
-  
-  logInUser(email, password) {
-    return auth.signInWithEmailAndPassword(email, password);
-  };
-  
-  logOutUser() {
-    return auth.signOut()
-  }
 
-  getAll() {
-    return new Promise((resolve, reject) => {
-        /**
-         * CLOUD-FUNCTION FIRED FROM HERE
-         */
-    });
-  }
+    return db
+      .collection("users")
+      .doc(user.uid)
+      .set(data)
+    }
+    
 
-  create(data: object) {
-    return new Promise((resolve, reject) => {
-        /**
-         * CLOUD-FUNCTION FIRED FROM HERE
-         */
-    });
-  }
-
-  update(data: object) {
-    return new Promise((resolve, reject) => {        
-        /**
-        * CLOUD-FUNCTION FIRED FROM HERE
-        */
-    })
-  }
-
-  /**
-   * Delete task with given id.
-   */
-  delete(id: number) {
-    return new Promise<void>((resolve, reject) => {        
-        /**
-        * CLOUD-FUNCTION FIRED FROM HERE
-        */
-    });
-  }
+    changeUserName(userName:string, UID:string) {
+      return db.collection("users").doc(UID).update({"name": userName});
+    }
 }
 
 const quizService = new QuizService();
