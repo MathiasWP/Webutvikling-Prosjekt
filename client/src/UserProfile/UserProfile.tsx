@@ -30,8 +30,8 @@ function UserProfile() {
 
 
     useEffect(() => {
-        if(state.user.name) {
-            setUsername(state.user.name)
+        if(state.user?.name) {
+            setUsername(state.user?.name)
         }
     }, [state])
 
@@ -44,6 +44,7 @@ function UserProfile() {
         {
             state?.user ?
             <>
+            <button onClick={quizService.signOut}>Log out</button>
             <span>
             Username: <Input value={username} onChange={(e) => setUsername(e.currentTarget.value)}/>
             <button onClick={changeUserName}>Save</button>

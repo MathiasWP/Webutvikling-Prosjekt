@@ -49,10 +49,11 @@ function App() {
       );
   }, [])
 
+  console.log(state)
   return (
     <div className="App">
       {
-        state?.user ?
+        state.hasOwnProperty('user') ?
         <>
           <nav>
             <Link to="/">Startpage</Link>

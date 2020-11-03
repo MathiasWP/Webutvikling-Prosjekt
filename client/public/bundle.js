@@ -49680,9 +49680,10 @@ function App() {
       }
     });
   }, []);
+  console.log(state);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "App"
-  }, (state === null || state === void 0 ? void 0 : state.user) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
+  }, state.hasOwnProperty('user') ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "/"
   }, "Startpage"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Link, {
     to: "/:user"
@@ -50032,15 +50033,21 @@ function UserProfile() {
   }
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    if (state.user.name) {
-      setUsername(state.user.name);
+    var _state$user;
+
+    if ((_state$user = state.user) === null || _state$user === void 0 ? void 0 : _state$user.name) {
+      var _state$user2;
+
+      setUsername((_state$user2 = state.user) === null || _state$user2 === void 0 ? void 0 : _state$user2.name);
     }
   }, [state]);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
     className: "UserProfile"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
     id: "profile-info"
-  }, (state === null || state === void 0 ? void 0 : state.user) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", null, "Username: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_components_Input_Input__WEBPACK_IMPORTED_MODULE_4__.default, {
+  }, (state === null || state === void 0 ? void 0 : state.user) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
+    onClick: _service_quiz_service__WEBPACK_IMPORTED_MODULE_3__.default.signOut
+  }, "Log out"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", null, "Username: ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_components_Input_Input__WEBPACK_IMPORTED_MODULE_4__.default, {
     value: username,
     onChange: function onChange(e) {
       return setUsername(e.currentTarget.value);
