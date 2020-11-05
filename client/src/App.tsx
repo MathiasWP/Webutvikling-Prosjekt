@@ -89,7 +89,7 @@ function App() {
          </Switch>
         </>
         :
-       <Loading/>
+       <Loading label="Gimme a second..."/>
       }
     </div>
   );

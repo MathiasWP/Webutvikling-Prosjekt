@@ -44,9 +44,6 @@ class QuizService {
     }
   }
 
-  /**
-   * This is done here because the firebase api works that way (cookies ftw)
-   */
   createUser(email: string, password: string) {
    return firebase.auth().createUserWithEmailAndPassword(email, password);
   }

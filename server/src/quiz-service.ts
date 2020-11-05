@@ -7,10 +7,10 @@ class QuizService {
       if(doc.exists) {
         return doc.data();
       } else {
-        throw Error("No such document!")
+        throw Error("No such document!");
       }
     } catch (error) {
-        throw Error(error.message)
+        throw Error(error.message);
     }
   };
   
@@ -29,19 +29,19 @@ class QuizService {
       .collection("users")
       .doc(user.uid)
       .set(data)
-    }
+    };
     
 
     async changeUserName(userName:string, token: {i: string}) {
       try {
         const isAllowed = await adminAuth.verifyIdToken(token.i)
-        if(isAllowed.uid) {
-          return db.collection("users").doc(isAllowed.uid).update({"name": userName});
-        } else {
-          throw Error("Not allowed")
-        }
+          if(isAllowed.uid) {
+            return db.collection("users").doc(isAllowed.uid).update({"name": userName});
+          } else {
+            throw Error("Not allowed")
+          }
       } catch (error) {
-        throw Error(error.message)
+          throw Error(error.message)
       }
      
     }
