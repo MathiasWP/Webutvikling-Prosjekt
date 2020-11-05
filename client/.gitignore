@@ -22,7 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-./public/bundle.js
-./public/bundle.js.map
-./public/node_modules_web-vitals_dist_web-vitals_es5_min_js.bundle
-./public/node_modules_web-vitals_dist_web-vitals_es5_min_js.bundle.js
+/public/bundle.js
+/public/bundle.js.map
+/public/node_modules_web-vitals_dist_web-vitals_es5_min_js.bundle.js
+/public/node_modules_web-vitals_dist_web-vitals_es5_min_js.bundle.js.map

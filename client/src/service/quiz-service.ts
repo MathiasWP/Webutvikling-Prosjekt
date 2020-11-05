@@ -53,7 +53,6 @@ class QuizService {
   logIn(email: string, password: string) {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then(data => {
-      
       data
     }) // Add to store or something so we know which user is logged in?
     .catch((error)=> {
