@@ -110,9 +110,6 @@ function UserProfile() {
             <div className="row">
                 Created at: {state.user.created}
             </div>
-            <div className="row">
-                User-id: {state.auth.uid}
-            </div>
             <section id="quizes">
                 Your quizes:
                 {

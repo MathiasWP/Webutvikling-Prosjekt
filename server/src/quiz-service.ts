@@ -1,20 +1,17 @@
 import { db, auth, adminAuth } from './firebase'
 
 class QuizService {
-  getUserInfoById(id: string) {
-    return db
-      .collection("users")
-      .doc(id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-            return doc.data();
-        } else {
-            throw Error("No such document!")
-        }
-      }).catch((error) => {
-          return error
-      });
+  async getUserInfoById(id: string) {
+    try {
+      const doc = await db.collection("users").doc(id).get()
+      if(doc.exists) {
+        return doc.data();
+      } else {
+        throw Error("No such document!")
+      }
+    } catch (error) {
+        throw Error(error.message)
+    }
   };
   
   
