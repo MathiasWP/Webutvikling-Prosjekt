@@ -13,7 +13,7 @@ function FrontPage() {
       history.push("/start");
     }
     function goToCreate() {
-      history.push("/:user/create");
+      history.push("/user/create-quiz");
     }
 
 
