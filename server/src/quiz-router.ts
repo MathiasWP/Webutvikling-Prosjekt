@@ -6,33 +6,39 @@ import quizService from './quiz-service';
  */
 const router = express.Router();
 
-router.put('/user/:id', (request, response) => {
-    const { id } = request.params;
-
-    quizService
-    .getUserInfoById(id)
-    .then(data => response.send(data))
-    .catch(error => response.status(500).send(error))
+router.post('/getuserinfo', async (request, response) => {
+    const body = request.body;
+    const { token } = body.data;
+    try {
+        const data = await quizService.getUserInfoById(token);
+        return response.send(data);
+    } catch (error) {
+        return response.status(500).send(error)
+    }
 })
 
-router.post('/adduser', (request, response) => {
+router.post('/adduser', async (request, response) => {
     const body = request.body;
-    const userData = body.data.user.user;
+    const { user: {user}, token} = body.data;
 
-    quizService
-    .addUser(userData)
-    .then(data => response.send(data))
-    .catch(error => response.status(500).send(error))
+    try {
+        const data = await quizService.addUser(user, token);
+        return response.send(data);
+    } catch (error) {
+        return response.status(500).send(error)
+    }
 })
 
-router.post('/changeusername', (request, response) => {
+router.post('/changeusername', async (request, response) => {
     const body = request.body;
-    const {userName, userToChange} = body.data;
+    const { userName, token } = body.data;
 
-    quizService
-    .changeUserName(userName, userToChange)
-    .then(data => response.send(data))
-    .catch(error => response.status(500).send(error))
+    try {
+        const data = await quizService.changeUserName(userName, token)
+        return response.send(data);
+    } catch (error) {
+        return response.status(500).send(error)
+    }
 })
 
 export default router;
