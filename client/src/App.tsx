@@ -10,6 +10,7 @@ import SinglePlayer from './SinglePlayer/SinglePlayer';
 import Start from './Start/Start';
 import UserProfile from './UserProfile/UserProfile';
 import CreateQuiz from './CreateQuiz/CreateQuiz';
+import Loading from './components/Loading/Loading';
 
 import './App.scss';
 import quizService from './service/quiz-service'
@@ -58,7 +59,7 @@ function App() {
         <>
           <nav>
             <Link to="/">Startpage</Link>
-            <Link to="/user">Profile page</Link>
+            <Link to="/user">{state.user ? 'Profile page' : 'Log in'}</Link>
             </nav>
           <Switch>
            <Route exact path="/">
@@ -88,7 +89,7 @@ function App() {
          </Switch>
         </>
         :
-        'Laster'
+       <Loading/>
       }
     </div>
   );
