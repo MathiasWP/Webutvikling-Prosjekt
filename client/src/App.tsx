@@ -20,7 +20,7 @@ function App() {
   const { state, dispatch } = useContext(store);
 
 
-//  quizService.signOut()
+  //quizService.signOut()
 
   /**
    * Finding out if a user is logged in via auth-api and
@@ -28,18 +28,17 @@ function App() {
    */
   useMemo(() => {
       firebase.auth().onAuthStateChanged((user) => {
-        /**
-         * ATM we always have a user object in our store, but
-         * if the user was not found we just set it to null.
-         */
         if (user) {
-          quizService.getUserDetails(user.uid)
+          quizService.getUserDetails()
             .then(data => dispatch({ type: 'SET USER', payload: 
             {
               user_details: data,
               auth: quizService.getCurrentUser()
             }}))
-            .catch(error => console.log(error))
+            .catch(error => {
+              console.log(error)
+              quizService.signOut() // If there's something wrong we try to sign out the user as a fix
+            })
         }
         else {
           dispatch({ type: 'SET USER', payload: 

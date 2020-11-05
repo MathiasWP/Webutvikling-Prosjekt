@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './Button.scss';
 
-type ButtonProps = {children?: any, type?: string, disabled?: boolean, onClick?: any } // This any is not correct
+type ButtonProps = {children?: any, type?: string, disabled?: boolean, onClick?: any, other?: any  } // This any is not correct
 
 function Button({children, onClick, disabled = false, type = 'normal', ...other}:ButtonProps) {
   switch (type) {

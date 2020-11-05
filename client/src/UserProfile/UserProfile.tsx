@@ -13,44 +13,35 @@ import { store } from '../store/store';
 function UserProfile() {
     const { state } = useContext(store);
 
-    const [password, setPassword] = useState('passord');
-    const [username, setUsername] = useState('test@test.test');
+    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
     const [showSaveUsername, setShowSaveUsername] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const storedUsername = useRef();
     const [error, setError] = useState({error: '', message: ''});
     const [feedback, setFeedback] = useState(null);
+
+    function handleError(error: {code: string, message: string}) {
+        const {code, message} = error;
+        setError({error: code, message: message});
+        setIsLoading(false);
+    }
   
     function handleLogIn() {
         setIsLoading(true);
 
         quizService.logIn(username, password)
-        .then(data => {
-            console.log(data)
-        })
-        .catch(error => {
-            const {code, message} = error;
-            setError({error: code, message: message})
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
+            .then(data => {
+                // console.log(data)
+            })
+            .catch(error => handleError(error))
     }
 
     
     function handleCreateUser() {
         setIsLoading(true);
         quizService.createUser(username, password)
-        .then(data => {
-            quizService.addUserToDatabase(data);
-        })
-        .catch(error => {
-            const {code, message} = error;
-            setError({error: code, message: message});
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
+            .catch(error => handleError(error))
     }
 
     function handleSignOut() {
@@ -69,17 +60,17 @@ function UserProfile() {
     
     function changeUserName() {
         quizService
-        .changeUsername(username)
-        .then(data => {
-            storedUsername.current = username;
-            setShowSaveUsername(username !== storedUsername.current);
-            setFeedback({ type: 'username', message: "New username saved!" });
+            .changeUsername(username)
+            .then(() => {
+                storedUsername.current = username;
+                setShowSaveUsername(username !== storedUsername.current);
+                setFeedback({ type: 'username', message: "New username saved!" });
 
-            setTimeout(() => {
-                setFeedback(null);
-            }, 3200)
-        })
-        .catch(error => console.error(error));
+                setTimeout(() => {
+                    setFeedback(null);
+                }, 3200)
+            })
+            .catch(error => console.error(error));
     }
 
     useEffect(() => {
@@ -87,6 +78,7 @@ function UserProfile() {
             const currentValue = state.user.name;
             setUsername(currentValue);
             storedUsername.current = currentValue;
+            setIsLoading(false);
         }
     }, [state])
 
@@ -119,7 +111,7 @@ function UserProfile() {
                             {
                                 state?.user?.quizes && Object.keys(state.user.quizes).length ?
                                 <>
-                                    {Object.values(state.user.quizes).map(q => <p>{q}</p>)}
+                                    {Object.values(state.user.quizes).map(q => <p key={q.id}>{q.name}</p>)}
                                 </>
                                 : 
                                 <p>You have no quizes</p>

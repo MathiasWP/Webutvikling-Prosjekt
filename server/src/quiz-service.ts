@@ -1,34 +1,51 @@
 import { db, auth, adminAuth } from './firebase'
 
 class QuizService {
-  async getUserInfoById(id: string) {
+  async getUserInfoById(token: {i: string}) {
     try {
-      const doc = await db.collection("users").doc(id).get()
-      if(doc.exists) {
-        return doc.data();
+      const isAllowed = await adminAuth.verifyIdToken(token.i);
+
+      if(isAllowed.uid) {
+        const doc = await db.collection("users").doc(isAllowed.uid).get()
+        if(doc.exists) {
+          return doc.data();
+        } else {
+          throw Error("No such document!");
+        }
       } else {
-        throw Error("No such document!");
+        throw Error("Not allowed")
       }
+
+
     } catch (error) {
         throw Error(error.message);
     }
   };
   
   
-  addUser(user: any) {
-    const username = user.email.split('@')[0]; // Taking email name as username
-    const timestamp = new Date().toUTCString();
+   async addUser(user: any, token: {i: string}) {
+      try {
+        const isAllowed = await adminAuth.verifyIdToken(token.i);
 
-    const data = {
-      name: username,
-      created: timestamp,
-      quizes: {}
-    };
+        if(isAllowed.uid) {
+          const username = user.email.split('@')[0]; // Taking email name as username
+          const timestamp = new Date().toUTCString();
+      
+          const data = {
+            name: username,
+            created: timestamp,
+            quizes: {}
+          };
+      
+          const response = await db.collection("users").doc(isAllowed.uid).set(data);
 
-    return db
-      .collection("users")
-      .doc(user.uid)
-      .set(data)
+          return response;
+        } else {
+          throw Error("Not allowed")
+        }
+      } catch (error) {
+        throw Error(error.message)
+      }
     };
     
 

@@ -5,9 +5,14 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
 
 class QuizService {
-  async getUserDetails(uid: string) {
+  async getUserDetails() {
     try {
-      const response = await axios.put(`/user/${uid}`);
+      const response = await axios.post('/getuserinfo', {
+        data: {
+          token: this.getCurrentUserToken()
+        }
+      });
+
       return response.data;
     } catch (error) {
       throw Error(error.message)
@@ -19,7 +24,8 @@ class QuizService {
     try {
       const response = await axios.post('/adduser', {
         data: {
-           user
+           user,
+           token: this.getCurrentUserToken()
         }
       });
 
@@ -44,20 +50,31 @@ class QuizService {
     }
   }
 
-  createUser(email: string, password: string) {
-   return firebase.auth().createUserWithEmailAndPassword(email, password);
+  async createUser(email: string, password: string) {
+    try {
+      const data = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = this.addUserToDatabase(data);
+      return user;
+    } catch (error) {
+      throw Error(error)
+    }
   }
 
-  logIn(email: string, password: string) {
-   return firebase.auth().signInWithEmailAndPassword(email, password);
+  async logIn(email: string, password: string) {
+    try {
+      const response = await firebase.auth().signInWithEmailAndPassword(email, password);
+      return response;
+    } catch (error) {
+      throw Error(error)
+    }
   }
 
-  signOut() {
-    firebase.auth().signOut().then(() => {
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-    });
+  async signOut() { 
+    try {
+      firebase.auth().signOut();
+    } catch (error) {
+      throw Error(error)
+    }
   }
 
   getCurrentUser() {

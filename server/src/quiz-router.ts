@@ -6,11 +6,11 @@ import quizService from './quiz-service';
  */
 const router = express.Router();
 
-router.put('/user/:id', async (request, response) => {
-    const { id } = request.params;
-
+router.post('/getuserinfo', async (request, response) => {
+    const body = request.body;
+    const { token } = body.data;
     try {
-        const data = await quizService.getUserInfoById(id);
+        const data = await quizService.getUserInfoById(token);
         return response.send(data);
     } catch (error) {
         return response.status(500).send(error)
@@ -19,10 +19,10 @@ router.put('/user/:id', async (request, response) => {
 
 router.post('/adduser', async (request, response) => {
     const body = request.body;
-    const userData = body.data.user.user;
+    const { user: {user}, token} = body.data;
 
     try {
-        const data = await quizService.addUser(userData);
+        const data = await quizService.addUser(user, token);
         return response.send(data);
     } catch (error) {
         return response.status(500).send(error)
