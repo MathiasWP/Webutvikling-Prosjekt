@@ -19,6 +19,8 @@ function App() {
   const { state, dispatch } = useContext(store);
 
 
+//  quizService.signOut()
+
   /**
    * Finding out if a user is logged in via auth-api and
    * adding it to the store (only doing on load)
@@ -49,7 +51,6 @@ function App() {
       );
   }, [])
 
-  console.log(state)
   return (
     <div className="App">
       {
@@ -57,7 +58,7 @@ function App() {
         <>
           <nav>
             <Link to="/">Startpage</Link>
-            <Link to="/:user">Profile page</Link>
+            <Link to="/user">Profile page</Link>
             </nav>
           <Switch>
            <Route exact path="/">
@@ -75,10 +76,10 @@ function App() {
           <Route exact path="/grouproom/:id">
             <GroupRoom />
           </Route>
-          <Route exact path="/:user">
+          <Route exact path="/user">
             <UserProfile />
           </Route>
-          <Route exact path="/:user/create">
+          <Route exact path="/user/create-quiz">
             <CreateQuiz />
           </Route>
           <Route>

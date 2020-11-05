@@ -21,15 +21,11 @@ class QuizService {
     .catch(error => console.error(error))
   }
 
-  changeUsername(userName: string, userToChange: string) {
-    if(userToChange !== this.getCurrentUser().uid) {
-      return;
-    }
-
+  changeUsername(userName: string) {
     return axios.post('/changeusername', {
       data: {
          userName: userName,
-         userToChange: userToChange
+         token: this.getCurrentUserToken()
       }
     })
     .then((response: {data: any}) => response.data)
@@ -40,25 +36,11 @@ class QuizService {
    * This is done here because the firebase api works that way (cookies ftw)
    */
   createUser(email: string, password: string) {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(data => {
-      this.addUserToDatabase(data)
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const {code, message} = error;
-    });
+   return firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 
   logIn(email: string, password: string) {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(data => {
-      data
-    }) // Add to store or something so we know which user is logged in?
-    .catch((error)=> {
-      // Handle Errors here.
-      const {code, message} = error;
-    });
+   return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
   signOut() {
@@ -71,6 +53,10 @@ class QuizService {
 
   getCurrentUser() {
     return firebase.auth().currentUser;
+  }
+
+  getCurrentUserToken() {
+    return this.getCurrentUser().getIdToken();
   }
 }
 

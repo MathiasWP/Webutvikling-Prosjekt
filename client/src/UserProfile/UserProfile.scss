@@ -1,6 +1,5 @@
 .UserProfile {
-  height: 100vh;
-  min-height: 30rem;
+  min-height: 100vh;
   width: 100%;
   display: grid;
   justify-items: center;
@@ -15,15 +14,47 @@
     flex-direction: column;
     justify-content: space-evenly;
 
-    span {
+    .row {
       display: flex;
       justify-content: space-evenly;
       align-items: center;
       margin: 3rem 0;
     }
+
+    #log-out {
+      align-self: center;
+      margin-top: 5rem;
+      width: 15rem;
+    }
   }
 
   #quizes {
     margin-top: 5rem;
+  }
+
+  #error-message {
+    color: red;
+    font-size: 2rem;
+    text-align: center;
+    margin: 1rem;
+    background-color: white;
+    border-radius: 5px;
+    padding: 2rem;
+  }
+
+  #feedback-username {
+    text-align: center;
+    color: rgb(65, 240, 65);
+    padding: 1rem;
+    background-color: white;
+    border-radius: 5px;
+    width: fit-content;
+    align-self: center;
+  }
+
+  #buttons-wrapper {
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
   }
 }

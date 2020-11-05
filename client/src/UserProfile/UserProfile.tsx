@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import {useParams} from 'react-router-dom'
 import firebase from '../config/firebase';
 import './UserProfile.scss';
 import quizService from '../service/quiz-service'
 
 import Input from '../components/Input/Input'
-import { sign } from 'crypto';
+import Button from '../components/Button/Button'
 
 import { store } from '../store/store';
 
@@ -18,47 +18,105 @@ function UserProfile() {
 
     const { state } = useContext(store);
 
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('passord');
+    const [username, setUsername] = useState('test@test.test');
+    const [showSaveUsername, setShowSaveUsername] = useState(false);
+    const storedUsername = useRef();
+    const [error, setError] = useState({error: '', message: ''});
+    const [feedback, setFeedback] = useState(null)
   
+    function handleLogIn() {
+            quizService.logIn(username, password)
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                const {code, message} = error;
+                setError({error: code, message: message})
+            })
+    }
+
+    
+    function handleCreateUser() {
+        quizService.createUser(username, password)
+        .then(data => {
+            quizService.addUserToDatabase(data)
+        })
+        .catch(error => {
+            const {code, message} = error;
+            setError({error: code, message: message})
+        })
+    }
+
+    function handleSignOut() {
+        setUsername('');
+        setPassword('');
+        quizService.signOut();
+    }
+
+
+    function handleUsernameChange(e) {
+        const value =e.currentTarget.value 
+        setUsername(value)
+        setShowSaveUsername(value !== storedUsername.current)
+    }
+
+    
     function changeUserName() {
         quizService
-        .changeUsername(username, state.auth.uid)
-        .then(data => alert('Name changed'))
+        .changeUsername(username)
+        .then(data => {
+            storedUsername.current = username
+            setShowSaveUsername(username !== storedUsername.current)
+            setFeedback({type: 'username', message: "New username saved!"})
+
+            setTimeout(() => {
+                setFeedback(null)
+            }, 3200)
+        })
         .catch(error => console.error(error))
     }
 
 
+
+
     useEffect(() => {
         if(state.user?.name) {
-            setUsername(state.user?.name)
+            const currentValue = state.user.name;
+            setUsername(currentValue)
+            storedUsername.current = currentValue;
         }
     }, [state])
 
 
-
+    console.log(state)
   return (
     <div className="UserProfile">
         <div id="profile-info">
-
         {
-            state?.user ?
+            state?.user && state?.auth ?
             <>
-            <button onClick={quizService.signOut}>Log out</button>
-            <span>
-            Username: <Input value={username} onChange={(e) => setUsername(e.currentTarget.value)}/>
-            <button onClick={changeUserName}>Save</button>
-            </span>
-            <span>
+            <div className="row">
+            Username: <Input value={username} onChange={handleUsernameChange}/>
+            {
+                showSaveUsername &&
+                <Button type="success" onClick={changeUserName}>Save</Button>
+            }
+            </div>
+            {
+                feedback?.type === "username" &&
+                <p id="feedback-username">{feedback.message}</p>
+            }
+            <div className="row">
                 Created at: {state.user.created}
-            </span>
-            <span>
+            </div>
+            <div className="row">
                 User-id: {state.auth.uid}
-            </span>
+            </div>
             <section id="quizes">
                 Your quizes:
                 {
-                    Object.keys(state.user.quizes).length ?
+                    state?.user?.quizes && Object.keys(state.user.quizes).length ?
                     <>
                         {Object.values(state.user.quizes).map(q => <p>{q}</p>)}
                     </>
@@ -66,17 +124,24 @@ function UserProfile() {
                     <p>You have no quizes</p>
                 }
             </section>
+            <Button id="log-out" onClick={handleSignOut}>Log out</Button>
         </>
         :
         <>
-            <span>
+            <div className="row">
             Username: <Input value={username} onChange={(e) => setUsername(e.currentTarget.value)}/>
-            </span>
-            <span>
+            </div>
+            <div className="row">
             Password: <Input value={password} onChange={(e) => setPassword(e.currentTarget.value)}/>
-            </span>
-            <button onClick={() => quizService.logIn(username, password)}>Log in</button>
-            <button onClick={() => quizService.createUser(username, password)}>Create user</button>
+            </div>
+            {
+                error.error && error.message  &&
+            <div id="error-message" >{error.message}</div>
+            }
+            <div id="buttons-wrapper">
+            <Button onClick={handleCreateUser}>Create user</Button>
+            <Button onClick={handleLogIn}>Log in</Button>
+            </div>
         </>
 
         }

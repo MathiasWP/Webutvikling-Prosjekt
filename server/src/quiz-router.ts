@@ -27,10 +27,10 @@ router.post('/adduser', (request, response) => {
 
 router.post('/changeusername', (request, response) => {
     const body = request.body;
-    const {userName, userToChange} = body.data;
+    const { userName, token } = body.data;
 
     quizService
-    .changeUserName(userName, userToChange)
+    .changeUserName(userName, token)
     .then(data => response.send(data))
     .catch(error => response.status(500).send(error))
 })

@@ -1,9 +1,7 @@
-import { db, auth } from './firebase'
+import { db, auth, adminAuth } from './firebase'
 
-class QuizService {  
-
+class QuizService {
   getUserInfoById(id: string) {
-    console.log(id)
     return db
       .collection("users")
       .doc(id)
@@ -12,7 +10,7 @@ class QuizService {
         if (doc.exists) {
             return doc.data();
         } else {
-            return "No such document!"
+            throw Error("No such document!")
         }
       }).catch((error) => {
           return error
@@ -37,8 +35,18 @@ class QuizService {
     }
     
 
-    changeUserName(userName:string, UID:string) {
-      return db.collection("users").doc(UID).update({"name": userName});
+    async changeUserName(userName:string, token: {i: string}) {
+      try {
+        const isAllowed = await adminAuth.verifyIdToken(token.i)
+        if(isAllowed.uid) {
+          return db.collection("users").doc(isAllowed.uid).update({"name": userName});
+        } else {
+          throw Error("Not allowed")
+        }
+      } catch (error) {
+        throw Error(error.message)
+      }
+     
     }
 }
 

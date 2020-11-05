@@ -7,12 +7,15 @@ const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
 import app from './app'
 
 
-admin.initializeApp()
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 firebase.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   ...config
 });
 
+export const adminAuth = admin.auth();
 export const auth = firebase.auth();
 export const db = firebase.firestore();
 export const webApi = functions.https.onRequest(app)
