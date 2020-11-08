@@ -62,6 +62,21 @@ class QuizService {
       }
      
     }
+
+    async getActiveRooms(){
+      let rooms = []
+      const groupRooms = db.collection('group-rooms');
+      const snapshot = await groupRooms.where('active', '==', true).get();
+      let i = 0;
+
+      snapshot.forEach(doc => {
+          rooms.push(doc.data())
+          rooms[i].id = doc.id
+          i++;
+      });
+
+      return rooms
+  }
 }
 
 const quizService = new QuizService();

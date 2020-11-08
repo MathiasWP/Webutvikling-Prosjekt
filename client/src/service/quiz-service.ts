@@ -84,6 +84,13 @@ class QuizService {
   getCurrentUserToken() {
     return this.getCurrentUser()?.getIdToken();
   }
+
+  getActiveRooms(){
+    return axios.post('/activerooms')
+    .then(response => response.data)
+    .catch(error => console.log(error))
+  }
+
 }
 
 const quizService = new QuizService();
