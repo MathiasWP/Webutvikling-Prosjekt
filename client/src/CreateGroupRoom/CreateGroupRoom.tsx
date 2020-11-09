@@ -9,7 +9,8 @@ function CreateGroupRoom() {
 
   return (
     <div className="CreateGroupRoom">
-      
+      <p>Make your own quiz</p>
+
     </div>
   );
 }

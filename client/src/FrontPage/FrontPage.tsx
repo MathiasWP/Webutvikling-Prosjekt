@@ -5,14 +5,14 @@ import './FrontPage.scss';
 
 
 function FrontPage() {
-    const history = useHistory();
+  const history = useHistory();
 
-    function goToPlay() {
-      history.push("/start");
-    }
-    function goToCreate() {
-      history.push("/:user/create");
-    }
+  function goToPlay() {
+    history.push("/start");
+  }
+  function goToCreate() {
+    history.push("/:user/create");
+  }
 
 
   return (

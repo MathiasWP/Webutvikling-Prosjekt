@@ -11,9 +11,9 @@ const CLIENT_DIR_STATIC = '../../../client/public//static'; // This is relative 
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(path.join(__dirname, CLIENT_DIR));
 liveReloadServer.server.once("connection", () => {
-    setTimeout(() => {
-        liveReloadServer.refresh("/");
-    }, 100);
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
 });
 
 // Express application
@@ -23,9 +23,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, CLIENT_DIR)));
 
 app.use('/static', express.static(path.join(__dirname, CLIENT_DIR_STATIC)));
-app.get('*', function(req, res) {
-  res.sendFile('index.html', {root: path.join(__dirname, CLIENT_DIR)});
-});
+
 
 app.use(connectLivereload());
 
@@ -34,5 +32,9 @@ app.use(express.json());
 
 // Api
 app.use('/api/v1', quizRouter);
+
+app.get('*', function (req, res) {
+  res.sendFile('index.html', { root: path.join(__dirname, CLIENT_DIR) });
+});
 
 export default app;
