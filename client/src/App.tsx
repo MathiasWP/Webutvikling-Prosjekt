@@ -70,7 +70,7 @@ function App() {
           <Route path="/singleplayer">
             <SinglePlayer />
           </Route>
-          <Route path="/grouproom">
+          <Route exact path="/grouproom">
             <CreateGroupRoom />
           </Route>
           <Route exact path="/grouproom/:id">

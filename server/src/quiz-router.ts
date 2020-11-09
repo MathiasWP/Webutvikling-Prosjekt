@@ -46,4 +46,36 @@ router.post('/activerooms', (request, response) => {
     .then(data => response.send(data))
 })
 
+
+router.post("/getroom", async (request, response) => {
+    const body = request.body;
+    const { id } = body.data;
+    try {
+        const data = await quizService.getRoom(id);
+        return response.send(data)
+    } catch (error) {
+    return response.status(500).send(error)
+    }
+})
+
+router.post("/categories", async (request, response) => {
+    try {
+        const data = await quizService.getCategories();
+        return response.send(data)
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+
+router.post('/getquizes', async (request, response) => {
+    const body = request.body;
+    const { category , token} = body.data;
+
+    try {
+        const data = await quizService.findQuizesByCategory(category, token);
+        return response.send(data);
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
 export default router;

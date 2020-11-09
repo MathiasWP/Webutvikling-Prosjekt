@@ -64,20 +64,75 @@ class QuizService {
     }
 
     async getActiveRooms(){
-      let rooms = []
+      let rooms = [];
       const groupRooms = db.collection('group-rooms');
       const snapshot = await groupRooms.where('active', '==', true).get();
       let i = 0;
 
       snapshot.forEach(doc => {
-          rooms.push(doc.data())
-          rooms[i].id = doc.id
-          i++;
+        const docData = doc.data();
+        if(!docData.finished) {
+            rooms.push(docData);
+            rooms[i].id = doc.id;
+            i++;
+        }
       });
 
       return rooms
   }
-}
 
+  async getRoom(id) {
+    const groupRoom = await db.collection('group-rooms').doc(id);
+    try {
+      const doc = await groupRoom.get();
+      if(doc.exists) {
+        return doc.data();
+      } else {
+        return null;
+      }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+  
+  async getCategories() {
+    const categories = await db.collection('categories').doc('categories');
+    try {
+      const doc = await categories.get();
+      if(doc.exists) {
+        return doc.data();
+      } else {
+        return [null];
+      }
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+
+  async findQuizesByCategory(category:string|number, token: {i: string}) {
+    try {
+      const isAllowed = await adminAuth.verifyIdToken(token.i)
+        if(isAllowed.uid) {
+          const quizes= [];
+          const snapshot = await db.collection('quizes').where('category', '==', category).get();
+          let i = 0;
+          snapshot.forEach(doc => {
+            const docData = doc.data();
+            if(!docData.finished) {
+                quizes.push(docData);
+                quizes[i].id = doc.id;
+                i++;
+            }
+          });
+
+          return quizes;
+        } else {
+          throw Error("Not allowed")
+        }
+    } catch (error) {
+        throw Error(error.message)
+    }
+}
+}
 const quizService = new QuizService();
 export default quizService;

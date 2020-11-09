@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import quizService from '../../service/quiz-service'
 import './ActiveRooms.scss'
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
 function ActiveRooms() {
     const [data, setData] = useState([])
-    const history = useHistory();
 
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await  quizService.getActiveRooms();
+            const result = await quizService.getActiveRooms();
 
             setData(result);
         };
@@ -22,6 +21,7 @@ function ActiveRooms() {
 
   return (
     <div className="activerooms">
+        <h2>Active grouprooms:</h2>
         <table>
             <thead>
                 <tr>
@@ -33,11 +33,13 @@ function ActiveRooms() {
             </thead>
             <tbody>
              {data.map(room => (
-                <tr>
+                <tr key={room.id}>
                     <td>{room.name}</td>
                     <td>{room.quiz.category}</td>
                     <td>{room.players.length}</td>
-                    <td><button onClick={() => {history.push('/grouproom/' + room.id)}}>JOIN</button></td>
+                    <td>
+                    <Link to={`/grouproom/${room.id}`}>JOIN</Link>
+                    </td>
                 </tr>
               ))}
             </tbody>

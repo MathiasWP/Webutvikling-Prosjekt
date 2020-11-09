@@ -91,6 +91,42 @@ class QuizService {
     .catch(error => console.log(error))
   }
 
+  async getRoom(id: number|string) {
+    try {
+      const response = await axios.post('/getroom', {
+        data: {
+           id
+        }
+      });
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }
+  }
+
+  async getCategories() {
+    try {
+      const response = await axios.post('/categories');
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }
+  }
+  async findQuizesByCategory(category: number) {
+    try {
+      const response = await axios.post('/getquizes', {
+        data: {
+           category,
+           token: this.getCurrentUserToken()
+        }
+      });
+      
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }
+  }
 }
 
 const quizService = new QuizService();
