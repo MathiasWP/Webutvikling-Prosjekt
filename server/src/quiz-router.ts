@@ -41,4 +41,9 @@ router.post('/changeusername', async (request, response) => {
     }
 })
 
+router.post('/activerooms', (request, response) => {
+    quizService.getActiveRooms()
+    .then(data => response.send(data))
+})
+
 export default router;
