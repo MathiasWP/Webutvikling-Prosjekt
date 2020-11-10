@@ -24,7 +24,6 @@ app.use(express.static(path.join(__dirname, CLIENT_DIR)));
 
 app.use('/static', express.static(path.join(__dirname, CLIENT_DIR_STATIC)));
 
-
 app.use(connectLivereload());
 
 // Use express json
@@ -34,6 +33,10 @@ app.use(express.json());
 app.use('/api/v1', quizRouter);
 
 app.get('*', function (req, res) {
+  res.sendFile('index.html', { root: path.join(__dirname, CLIENT_DIR) });
+});
+
+app.get('/*/', function (req, res) {
   res.sendFile('index.html', { root: path.join(__dirname, CLIENT_DIR) });
 });
 
