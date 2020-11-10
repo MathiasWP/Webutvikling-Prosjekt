@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Button from '../components/Button/Button'
 
 import './FrontPage.scss';
 
@@ -11,7 +12,7 @@ function FrontPage() {
       history.push("/start");
     }
     function goToCreate() {
-      history.push("/:user/create");
+      history.push("/user/create-quiz");
     }
 
 
@@ -19,8 +20,8 @@ function FrontPage() {
     <div className="FrontPage">
       <h1>Quiz-time!</h1>
       <div id="front-module">
-        <button onClick={goToPlay}>Play</button>
-        <button onClick={goToCreate}>Create quiz</button>
+        <Button onClick={goToPlay}>Play</Button>
+        <Button onClick={goToCreate}>Create quiz</Button>
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import SinglePlayer from './SinglePlayer/SinglePlayer';
 import Start from './Start/Start';
 import UserProfile from './UserProfile/UserProfile';
 import CreateQuiz from './CreateQuiz/CreateQuiz';
+import Loading from './components/Loading/Loading';
 
 import './App.scss';
 import quizService from './service/quiz-service'
@@ -19,24 +20,25 @@ function App() {
   const { state, dispatch } = useContext(store);
 
 
+  //quizService.signOut()
+
   /**
    * Finding out if a user is logged in via auth-api and
    * adding it to the store (only doing on load)
    */
   useMemo(() => {
       firebase.auth().onAuthStateChanged((user) => {
-        /**
-         * ATM we always have a user object in our store, but
-         * if the user was not found we just set it to null.
-         */
         if (user) {
-          quizService.getUserDetails(user.uid)
+          quizService.getUserDetails()
             .then(data => dispatch({ type: 'SET USER', payload: 
             {
               user_details: data,
               auth: quizService.getCurrentUser()
             }}))
-            .catch(error => console.log(error))
+            .catch(error => {
+              console.log(error)
+              quizService.signOut() // If there's something wrong we try to sign out the user as a fix
+            })
         }
         else {
           dispatch({ type: 'SET USER', payload: 
@@ -49,7 +51,6 @@ function App() {
       );
   }, [])
 
-  console.log(state)
   return (
     <div className="App">
       {
@@ -57,7 +58,7 @@ function App() {
         <>
           <nav>
             <Link to="/">Startpage</Link>
-            <Link to="/:user">Profile page</Link>
+            <Link to="/user">{state.user ? 'Profile page' : 'Log in'}</Link>
             </nav>
           <Switch>
            <Route exact path="/">
@@ -69,16 +70,16 @@ function App() {
           <Route path="/singleplayer">
             <SinglePlayer />
           </Route>
-          <Route path="/grouproom">
+          <Route exact path="/grouproom">
             <CreateGroupRoom />
           </Route>
           <Route exact path="/grouproom/:id">
             <GroupRoom />
           </Route>
-          <Route exact path="/:user">
+          <Route exact path="/user">
             <UserProfile />
           </Route>
-          <Route exact path="/:user/create">
+          <Route exact path="/user/create-quiz">
             <CreateQuiz />
           </Route>
           <Route>
@@ -87,7 +88,7 @@ function App() {
          </Switch>
         </>
         :
-        'Laster'
+       <Loading label="Gimme a second..."/>
       }
     </div>
   );
