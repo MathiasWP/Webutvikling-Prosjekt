@@ -17,6 +17,7 @@ router.post('/getuserinfo', async (request, response) => {
     }
 })
 
+
 router.post('/adduser', async (request, response) => {
     const body = request.body;
     const { user: { user }, token } = body.data;
@@ -49,35 +50,6 @@ router.post('/activerooms', (request, response) => {
 
 router.post("/getroom", async (request, response) => {
     const body = request.body;
-    const { userName, userToChange } = body.data;
-
-    quizService
-        .changeUserName(userName, userToChange)
-        .then(data => response.send(data))
-        .catch(error => response.status(500).send(error))
-
-})
-
-router.get('/question-categories', (request, response) => {
-    console.log("GET CATEGORIESSSS!!!!!")
-    quizService
-        .getQuestionsCategories()
-        .then(data => response.send(data))
-        .catch(error => response.status(500).send(error))
-
-})
-
-
-router.post('/submitquiz', (request, response) => {
-
-    const quizData = request.body;
-
-    quizService
-        .submitQuiz(quizData)
-        .then(data => response.send(data))
-        .catch(error => response.status(500).send(error))
-
-
     const { id } = body.data;
     try {
         const data = await quizService.getRoom(id);
@@ -106,5 +78,27 @@ router.post('/getquizes', async (request, response) => {
     } catch (error) {
         return response.status(500).send(error)
     }
+})
+
+router.get('/question-categories', (request, response) => {
+    console.log("GET CATEGORIESSSS!!!!!")
+    quizService
+        .getQuestionsCategories()
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
+
+})
+
+
+router.post('/submitquiz', (request, response) => {
+
+    const quizData = request.body;
+
+    quizService
+        .submitQuiz(quizData)
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
+
+
 })
 export default router;

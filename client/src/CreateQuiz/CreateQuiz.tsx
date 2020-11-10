@@ -233,7 +233,7 @@ function CreateQuiz() {
     quizService
       .submitQuiz(quizData)
       .then(response => {
-        history.push("/:user/create/success");
+        history.push("/user/create/success");
         console.log('Success:', response)
       })
       .catch((error: Error) => console.log('Error ' + error.message));
