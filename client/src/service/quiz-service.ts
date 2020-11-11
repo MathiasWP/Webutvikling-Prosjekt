@@ -24,8 +24,8 @@ class QuizService {
     try {
       const response = await axios.post('/adduser', {
         data: {
-           user,
-           token: this.getCurrentUserToken()
+          user,
+          token: this.getCurrentUserToken()
         }
       });
 
@@ -39,8 +39,8 @@ class QuizService {
     try {
       const response = await axios.post('/changeusername', {
         data: {
-           userName: userName,
-           token: this.getCurrentUserToken()
+          userName: userName,
+          token: this.getCurrentUserToken()
         }
       });
 
@@ -69,7 +69,7 @@ class QuizService {
     }
   }
 
-  async signOut() { 
+  async signOut() {
     try {
       firebase.auth().signOut();
     } catch (error) {
@@ -81,21 +81,32 @@ class QuizService {
     return firebase.auth().currentUser;
   }
 
+  getQuestionsCategories() {
+    return axios.get('/question-categories').then((response) => response.data.categories);
+
+  }
+
+  submitQuiz(quizData) {
+    return axios.post('/submitQuiz', quizData)
+      .then((response: { data: any }) => response.data)
+      .catch(error => console.error(error))
+  }
+
   getCurrentUserToken() {
     return this.getCurrentUser()?.getIdToken();
   }
 
-  getActiveRooms(){
+  getActiveRooms() {
     return axios.post('/activerooms')
-    .then(response => response.data)
-    .catch(error => console.log(error))
+      .then(response => response.data)
+      .catch(error => console.log(error))
   }
 
-  async getRoom(id: number|string) {
+  async getRoom(id: number | string) {
     try {
       const response = await axios.post('/getroom', {
         data: {
-           id
+          id
         }
       });
 
@@ -117,11 +128,11 @@ class QuizService {
     try {
       const response = await axios.post('/getquizes', {
         data: {
-           category,
-           token: this.getCurrentUserToken()
+          category,
+          token: this.getCurrentUserToken()
         }
       });
-      
+
       return response.data;
     } catch (error) {
       throw Error(error.message)

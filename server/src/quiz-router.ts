@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { request, response } from 'express';
 import quizService from './quiz-service';
 
 /**
@@ -17,9 +17,10 @@ router.post('/getuserinfo', async (request, response) => {
     }
 })
 
+
 router.post('/adduser', async (request, response) => {
     const body = request.body;
-    const { user: {user}, token} = body.data;
+    const { user: { user }, token } = body.data;
 
     try {
         const data = await quizService.addUser(user, token);
@@ -43,7 +44,7 @@ router.post('/changeusername', async (request, response) => {
 
 router.post('/activerooms', (request, response) => {
     quizService.getActiveRooms()
-    .then(data => response.send(data))
+        .then(data => response.send(data))
 })
 
 
@@ -54,7 +55,7 @@ router.post("/getroom", async (request, response) => {
         const data = await quizService.getRoom(id);
         return response.send(data)
     } catch (error) {
-    return response.status(500).send(error)
+        return response.status(500).send(error)
     }
 })
 
@@ -69,7 +70,7 @@ router.post("/categories", async (request, response) => {
 
 router.post('/getquizes', async (request, response) => {
     const body = request.body;
-    const { category , token} = body.data;
+    const { category, token } = body.data;
 
     try {
         const data = await quizService.findQuizesByCategory(category, token);
@@ -77,5 +78,27 @@ router.post('/getquizes', async (request, response) => {
     } catch (error) {
         return response.status(500).send(error)
     }
+})
+
+router.get('/question-categories', (request, response) => {
+    console.log("GET CATEGORIESSSS!!!!!")
+    quizService
+        .getQuestionsCategories()
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
+
+})
+
+
+router.post('/submitquiz', (request, response) => {
+
+    const quizData = request.body;
+
+    quizService
+        .submitQuiz(quizData)
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
+
+
 })
 export default router;
