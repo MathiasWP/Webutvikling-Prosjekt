@@ -101,4 +101,21 @@ router.post('/submitquiz', (request, response) => {
 
 
 })
+
+router.post('/createroom', async (request, response) => {
+    const body = request.body;
+    try {
+        const res = await quizService.createQuizRoom(body)
+        return response.send(res.id)
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+
+router.post('/getquiz', async (request, response) => {
+    const body = request.body
+    const res = await quizService.getQuizById(body.id)
+    return response.send(res)
+})
 export default router;

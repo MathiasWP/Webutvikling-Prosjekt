@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState, useContext } from 'react';
 import ActiveRooms from '../components/ActiveRooms/ActiveRooms'
 import Button from '../components/Button/Button';
 import quizService from '../service/quiz-service'
 import { store } from '../store/store';
+import { useHistory } from 'react-router-dom';
 
 import './CreateGroupRoom.scss';
 
@@ -14,8 +16,9 @@ function CreateGroupRoom() {
     const [quizes, setQuizes] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(0)
     const { state } = useContext(store);
+    const history = useHistory();
 
-    useEffect(() => {  
+    useEffect(() => {
         const fetchData = async () => {
             const {categories} = await quizService.getCategories();
             setCategories(categories);
@@ -38,16 +41,21 @@ function CreateGroupRoom() {
     }, [selectedCategory])
 
     async function createQuizRoom(quizId) {
-      /**
-       * Add in stuff to create a quiz room - it is pretty straight
-       * forward. Just follow the setup we have created in the firestore
-       * and when it's created: send the user to the group-room. Because
-       * the id of the quiz-master is added to the group-room it's
-       * easy to know that current user is the quiz master, no need for fancy
-       * middleware stuff.
-       */
+        let currentUser = await quizService.getCurrentUser() // denne henter fra firebase auth, men vet ikke om vi vil ha denne IDen eller den fra firetore?
+        let quizRef = await quizService.getQuizById(quizId);
+        let room = {
+              active: true,
+              finished: false,
+              inProgress: false,
+              name: state.user.name + "'s Room" ,
+              players: [currentUser.uid],
+              quiz: quizRef.data,
+              quiz_master: currentUser.uid,
+            }
+        let roomId = await quizService.createQuizRoom(room);
+        history.push('/grouproom/' + roomId.data)
     }
-  
+
   return (
     <div className="CreateGroupRoom">
       {
@@ -57,7 +65,7 @@ function CreateGroupRoom() {
           <h2>Velg kategori</h2>
           <select onChange={(e) => setSelectedCategory(e.currentTarget.value)} disabled={findingQuiz} >
             <option value={-1}>Velg kategori</option>
-            {categories && 
+            {categories &&
             Object.entries(categories).map(([key, value]) => <option value={key} key={key}>{value}</option>)}
           </select>
 
@@ -84,7 +92,7 @@ function CreateGroupRoom() {
         <>
         <ActiveRooms />
         {
-         state?.user && 
+         state?.user &&
         <Button onClick={() => {setCreateQuiz(true)}}>
           Lag eget grupperom
         </Button>

@@ -138,6 +138,19 @@ class QuizService {
       throw Error(error.message)
     }
   }
+
+
+  async createQuizRoom(room){
+    return await axios.post('/createroom', room)
+  }
+
+
+  async getQuizById(id){
+    return await axios.post('/getquiz', {id: id})
+  }
+
+
+
 }
 
 const quizService = new QuizService();

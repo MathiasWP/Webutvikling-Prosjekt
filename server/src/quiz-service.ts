@@ -182,6 +182,19 @@ class QuizService {
       throw Error(error.message)
     }
   }
+
+  async createQuizRoom(quiz){
+        /* create quiz room here */
+        let setDoc = await db.collection('group-rooms').add(quiz)
+        return setDoc
+    }
+
+  async getQuizById(id){
+        const ref  = db.collection('quizes').doc(id)
+        const doc = await ref.get();
+        return doc.data()
+    }
+  
 }
 const quizService = new QuizService();
 export default quizService;
