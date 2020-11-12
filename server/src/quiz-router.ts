@@ -42,7 +42,7 @@ router.post('/changeusername', async (request, response) => {
     }
 })
 
-router.post('/activerooms', (request, response) => {
+router.get('/activerooms', (request, response) => {
     quizService.getActiveRooms()
         .then(data => response.send(data))
 })
@@ -81,7 +81,6 @@ router.post('/getquizes', async (request, response) => {
 })
 
 router.get('/question-categories', (request, response) => {
-    console.log("GET CATEGORIESSSS!!!!!")
     quizService
         .getQuestionsCategories()
         .then(data => response.send(data))
@@ -112,10 +111,32 @@ router.post('/createroom', async (request, response) => {
     }
 })
 
-
 router.post('/getquiz', async (request, response) => {
     const body = request.body
     const res = await quizService.getQuizById(body.id)
     return response.send(res)
 })
+
+router.post("/addusertoquiz", async (request, response) => {
+    const body = request.body;
+    const { token, data, roomId } = body.data;
+    try {
+        const _data = await quizService.addUserToQuizRoom(token, data, roomId);
+        return response.send(_data)
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+router.post("/removeuserfromquiz", async (request, response) => {
+    const body = request.body;
+    const { token, data, roomId } = body.data;
+    try {
+        const _data = await quizService.removeUserFromQuizRoom(token, data, roomId);
+        return response.send(_data)
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+
+
 export default router;

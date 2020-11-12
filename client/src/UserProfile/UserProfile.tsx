@@ -90,8 +90,8 @@ function UserProfile() {
                 :
                 <div id="profile-info">
                     {
-                        state?.user && state?.auth ?
-                        <>
+                    state?.user && state?.auth ?
+                    <>
                         <div className="row">
                         Username: <Input value={username} onChange={handleUsernameChange}/>
                             {

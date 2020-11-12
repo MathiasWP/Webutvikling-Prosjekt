@@ -19,6 +19,9 @@ const config: webpack.Configuration = {
               "@babel/preset-react",
               "@babel/preset-typescript",
             ],
+            plugins: [
+              "@babel/proposal-class-properties"
+            ]
           },
         },
       },
