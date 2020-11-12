@@ -3,7 +3,6 @@ import firebase from '../config/firebase'
 
 axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
-
 class QuizService {
   async getUserDetails() {
     try {
@@ -83,7 +82,6 @@ class QuizService {
 
   getQuestionsCategories() {
     return axios.get('/question-categories').then((response) => response.data.categories);
-
   }
 
   submitQuiz(quizData) {
@@ -97,7 +95,7 @@ class QuizService {
   }
 
   getActiveRooms() {
-    return axios.post('/activerooms')
+    return axios.get('/activerooms')
       .then(response => response.data)
       .catch(error => console.log(error))
   }
@@ -124,6 +122,7 @@ class QuizService {
       throw Error(error.message)
     }
   }
+
   async findQuizesByCategory(category: number) {
     try {
       const response = await axios.post('/getquizes', {
@@ -140,15 +139,46 @@ class QuizService {
   }
 
 
-  async createQuizRoom(room){
+  async createQuizRoom(room: any){
     return await axios.post('/createroom', room)
   }
 
 
-  async getQuizById(id){
+  async getQuizById(id: string){
     return await axios.post('/getquiz', {id: id})
   }
 
+  async addUserToQuizRoom(data: any, roomId: string) {
+    try {
+      const response = await axios.post('/addusertoquiz', {
+        data: {
+          data,
+          token: this.getCurrentUserToken(),
+          roomId
+        }
+      });
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }  
+  }
+
+  async removeUserFromQuizRoom(data: any, roomId: string) {
+    try {
+      const response = await axios.post('/removeuserfromquiz', {
+        data: {
+          data,
+          token: this.getCurrentUserToken(),
+          roomId
+        }
+      });
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }  
+  }
 
 
 }

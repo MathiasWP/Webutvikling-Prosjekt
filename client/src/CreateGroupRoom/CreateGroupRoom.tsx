@@ -48,9 +48,10 @@ function CreateGroupRoom() {
               finished: false,
               inProgress: false,
               name: state.user.name + "'s Room" ,
-              players: [currentUser.uid],
+              players: [],
               quiz: quizRef.data,
               quiz_master: currentUser.uid,
+              round: 0,
             }
         let roomId = await quizService.createQuizRoom(room);
         history.push('/grouproom/' + roomId.data)

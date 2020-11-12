@@ -18,4 +18,5 @@ firebase.initializeApp({
 export const adminAuth = admin.auth();
 export const auth = firebase.auth();
 export const db = firebase.firestore();
+export const _firestore = firebase.firestore;
 export const webApi = functions.https.onRequest(app)

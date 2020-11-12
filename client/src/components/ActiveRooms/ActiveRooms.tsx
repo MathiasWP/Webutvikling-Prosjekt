@@ -36,7 +36,7 @@ function ActiveRooms() {
                 <tr key={room.id}>
                     <td>{room.name}</td>
                     <td>{room.quiz.category}</td>
-                    <td>{room.players.length}</td>
+                    <td>{room.players?.length}</td>
                     <td>
                     <Link to={`/grouproom/${room.id}`}>JOIN</Link>
                     </td>
