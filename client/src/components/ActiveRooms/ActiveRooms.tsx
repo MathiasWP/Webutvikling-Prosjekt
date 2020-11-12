@@ -7,17 +7,18 @@ import { Link } from 'react-router-dom';
 
 function ActiveRooms() {
     const [data, setData] = useState([])
-
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await quizService.getActiveRooms();
+            const rooms = await quizService.getActiveRooms();
+            const availableCategories = await quizService.getCategories();
 
-            setData(result);
+            setCategories(availableCategories.categories);
+            setData(rooms);
         };
         fetchData();
     }, []);
-
 
   return (
     <div className="activerooms">
@@ -35,8 +36,8 @@ function ActiveRooms() {
              {data.map(room => (
                 <tr key={room.id}>
                     <td>{room.name}</td>
-                    <td>{room.quiz.category}</td>
-                    <td>{room.players?.length}</td>
+                    <td>{categories[room.quiz.category].toUpperCase()}</td>
+                    <td>{room.players.length}</td>
                     <td>
                     <Link to={`/grouproom/${room.id}`}>JOIN</Link>
                     </td>
