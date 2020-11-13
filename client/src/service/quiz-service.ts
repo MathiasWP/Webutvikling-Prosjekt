@@ -203,7 +203,7 @@ class QuizService {
         } 
       });
 
-      console.log(response)
+      //console.log(response)
 
       return response.data;
     } catch (error) {

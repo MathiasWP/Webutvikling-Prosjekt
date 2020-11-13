@@ -272,7 +272,7 @@ function GroupRoom() {
   function changeRound() {
     quizService.changeQuizRoomRound(roomId)
     .then((data) => {
-      console.log(data)
+      //console.log(data)
       setQuizRoom(data)
       socketService.send({
         type: "QUIZ_ROOM",

@@ -241,8 +241,8 @@ class QuizService {
       const isAllowed = await adminAuth.verifyIdToken(token.i)
       if (isAllowed.uid) {
        const roomRef = await db.collection("group-rooms").doc(roomId)
-        
-       roomRef.update({
+
+       await roomRef.update({
           inProgress: true,
           round: 0
         });
@@ -261,19 +261,19 @@ class QuizService {
     try {
       const isAllowed = await adminAuth.verifyIdToken(token.i)
       if (isAllowed.uid) {
-        console.log("YOU IN BOY")
           const roomRef = await db.collection("group-rooms").doc(roomId)
-            
-          roomRef.update({
+
+          await roomRef.update({
               inProgress: true,
               round: _firestore.FieldValue.increment(1)
             });
 
           const roomData = (await roomRef.get()).data();
-            
-          if(Object.keys(roomData.quiz.questions).length < Number(roomData.round)) {
-            roomRef.update({
-              finished: true
+          if(Object.keys(roomData.quiz.questions).length < Number(roomData.round + 1)) {
+            await roomRef.update({
+              finished: true,
+              inProgress: false,
+              active: false
           })
           return (await roomRef.get()).data();
           } else {
@@ -286,7 +286,7 @@ class QuizService {
       throw Error(error.message)
     }
   }
-  
+
 }
 const quizService = new QuizService();
 export default quizService;

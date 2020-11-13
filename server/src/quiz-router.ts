@@ -155,7 +155,7 @@ router.post("/changequizroomround", async (request, response) => {
     const { token, roomId } = body.data;
     try {
         const data = await quizService.changeQuizRoomRound(token, roomId);
-        console.log(data)
+        //console.log(data)
         return response.send(data)
     } catch (error) {
         return response.status(500).send(error)
