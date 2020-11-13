@@ -180,6 +180,36 @@ class QuizService {
     }  
   }
 
+   async beginQuizRoom(roomId: string) {
+    try {
+      const response = await axios.post('/beginquizroom', {
+      data: {
+          token: this.getCurrentUserToken(),
+          roomId
+        } 
+      });
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }  
+  }
+   async changeQuizRoomRound(roomId: string) {
+    try {
+      const response = await axios.post('/changequizroomround', {
+      data: {
+          token: this.getCurrentUserToken(),
+          roomId
+        } 
+      });
+
+      console.log(response)
+
+      return response.data;
+    } catch (error) {
+      throw Error(error.message)
+    }  
+  }
 
 }
 

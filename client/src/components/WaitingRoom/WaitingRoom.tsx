@@ -21,10 +21,9 @@ function WaitingRoom({quizRoom, players, onBegin}:WaitingRoomProps) {
         <>
         <ul>
           {
-            players.map(player => {
-              console.log(player)
+            players.map((player, i) => {
               return (
-              <li key={player?.uid}>{player?.name}</li>  
+              <li key={i}>{player?.name}</li>  
                 )
               })
             }

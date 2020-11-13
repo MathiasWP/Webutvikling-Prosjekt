@@ -138,5 +138,31 @@ router.post("/removeuserfromquiz", async (request, response) => {
     }
 })
 
+router.post("/beginquizroom", async (request, response) => {
+    const body = request.body;
+    const { token, roomId } = body.data;
+    try {
+        const data = await quizService.beginQuizRoom(token, roomId);
+        return response.send(data)
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+
+
+router.post("/changequizroomround", async (request, response) => {
+    const body = request.body;
+    const { token, roomId } = body.data;
+    try {
+        const data = await quizService.changeQuizRoomRound(token, roomId);
+        console.log(data)
+        return response.send(data)
+    } catch (error) {
+        return response.status(500).send(error)
+    }
+})
+
+
+
 
 export default router;

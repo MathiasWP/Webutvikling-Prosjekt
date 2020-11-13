@@ -196,12 +196,19 @@ class QuizService {
         return null;
       }
       if (isAllowed.uid) {
-        const action = db.collection("group-rooms").doc(roomId)
-        .update({
-          players: _firestore.FieldValue.arrayUnion(data)
-        });
+        const groupRoomRef = await db.collection("group-rooms").doc(roomId);
 
-        return data;
+        const groupRoomData = (await groupRoomRef.get()).data();
+
+        if(groupRoomData.players.find(p => p.uid === data.uid)) {
+          return "Already in room"
+        } else {
+          groupRoomRef.update({
+            players: _firestore.FieldValue.arrayUnion(data)
+          });
+          return data;
+        }
+
       } else {
         throw Error("Not allowed")
       }
@@ -227,7 +234,57 @@ class QuizService {
     } catch (error) {
       throw Error(error.message)
     }
+  }
 
+  async beginQuizRoom(token: { i: string },  roomId) {
+    try {
+      const isAllowed = await adminAuth.verifyIdToken(token.i)
+      if (isAllowed.uid) {
+       const roomRef = await db.collection("group-rooms").doc(roomId)
+        
+       roomRef.update({
+          inProgress: true,
+          round: 0
+        });
+
+        return (await roomRef.get()).data()
+
+      } else {
+        throw Error("Not allowed")
+      }
+    } catch (error) {
+      throw Error(error.message)
+    }
+  }
+
+  async changeQuizRoomRound(token: { i: string },  roomId) {
+    try {
+      const isAllowed = await adminAuth.verifyIdToken(token.i)
+      if (isAllowed.uid) {
+        console.log("YOU IN BOY")
+          const roomRef = await db.collection("group-rooms").doc(roomId)
+            
+          roomRef.update({
+              inProgress: true,
+              round: _firestore.FieldValue.increment(1)
+            });
+
+          const roomData = (await roomRef.get()).data();
+            
+          if(Object.keys(roomData.quiz.questions).length < Number(roomData.round)) {
+            roomRef.update({
+              finished: true
+          })
+          return (await roomRef.get()).data();
+          } else {
+            return roomData
+          }
+      } else {
+        throw Error("Not allowed")
+      }
+    } catch (error) {
+      throw Error(error.message)
+    }
   }
   
 }
