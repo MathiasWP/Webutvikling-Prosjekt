@@ -1,10 +1,14 @@
 .CreateQuiz {
-    height: 100vh;
+  margin-top: 100px;
+  height: auto;
   min-height: 30rem;
   width: 100%;
   display: grid;
   justify-items: center;
   align-content: center;
+  
+  
+  
   padding: 10px
 }
 
@@ -33,6 +37,38 @@ h2 {
 p{
     color: black;
     font-size:1.5rem;
+}
+
+select {
+    width: 50%;
+    padding:5px;
+    margin-top: 5px;;
+    margin-bottom: 5px;
+   
+    
+  }
+
+  .inputTitle{
+    width: 50%;
+    padding:5px;
+    margin-top: 5px;;
+    margin-bottom: 5px;
+
+  }
+  .inputQuestion{
+    width: 100%;
+    padding:5px;
+    margin-top: 5px;;
+    margin-bottom: 5px;
+
+  }
+.inputOption{
+    width: 50%;
+    padding:5px;
+    margin-top: 5px;;
+    margin-bottom: 5px;
+   
+
 }
 
 
@@ -78,6 +114,11 @@ letter-spacing: 1px;
 -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
 box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
 transition: all 0.4s ease 0s;
+}
+
+.showingQuiz{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 

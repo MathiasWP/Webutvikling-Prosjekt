@@ -32,19 +32,43 @@ function CreateQuiz() {
 
 
   const [title, setTitle] = useState("");
+  function changeTitle(e) {
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+
+  };
+
 
   const [categories, setCategories] = useState([]);
+  function getCategories() {
+    quizService
+      .getQuestionsCategories()
+      .then((categories) => setCategories(categories))
+      .catch((error: Error) => console.log('Error getting categories: ' + error.message));
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  };
+  useEffect(() => {
+    getCategories()
+  }, [setCategories])
 
+
+  const [selectedCategory, setSelectedCategory] = useState("1");
   function getSelectedCategory(e) {
     const newSelected = e.target.value;
     setSelectedCategory(newSelected)
   }
 
-  console.log(selectedCategory)
+
 
   const [question, setQuestion] = useState("");
+  function handleQuestionChange(e) {
+
+    const newQuestion = e.target.value;
+    setQuestion(newQuestion);
+
+  };
+
+
 
   const initialOptionsState = {
     option1: "",
@@ -53,39 +77,7 @@ function CreateQuiz() {
     option4: ""
 
   }
-
   const [optionsCollection, setOptions] = useState(initialOptionsState);
-
-  const [answersCollection, setAnswers] = useState([]);
-
-
-
-  function changeTitle(e) {
-    const newTitle = e.target.value;
-    setTitle(newTitle);
-
-  };
-
-  useEffect(() => {
-    getCategories()
-  }, [setCategories])
-
-
-  function getCategories() {
-    quizService
-      .getQuestionsCategories()
-      .then((categories) => setCategories(categories))
-      .catch((error: Error) => console.log('Error getting categories: ' + error.message));
-  };
-
-
-  function handleQuestionChange(e) {
-
-    const newQuestion = e.target.value;
-    setQuestion(newQuestion);
-
-  };
-
   function handleOptionsChange(e) {
     const newValue = e.target.value;
     const inputName = e.target.name;
@@ -100,64 +92,18 @@ function CreateQuiz() {
 
     })
   };
-  /* setAnswers(answersCollection => [...answersCollection, newAnswer]);*/
 
-  function handleAnswersChange(e) {
 
-    const name = e.target.name;
-
+  const [answer, SetAnswer] = useState();
+  function handleChange(e) {
     const newAnswer = e.target.value;
-
-    setAnswers(preValue => {
-
-      if (name === "answer1") {
-        return [
-          newAnswer,
-          preValue[1],
-          preValue[2]
-        ]
-
-      } else if (name === "answer2") {
-        return [
-          preValue[0],
-          newAnswer,
-          preValue[2]
-        ]
-
-      } else if (name === "answer3") {
-        return [
-          preValue[0],
-          preValue[1],
-          newAnswer
-        ]
-
-
-
-      }
-    })
-
-
-
-  };
-
-  function getaAnswer(index) {
-    if (index < answersCollection.length) {
-      return answersCollection[index]
-    } else {
-      return ""
-    }
+    SetAnswer(newAnswer)
   }
 
+
   let questionId = 1
-
-
   const [questionsCollection, setQuestionsCollection] = useState([])
-
-  console.log(questionsCollection)
   const [buttonClickState, setButton] = useState(false)
-
-
-
   function buttonHandel() {
 
     questionId = questionId + 1
@@ -166,31 +112,26 @@ function CreateQuiz() {
       ...prev, {
         questions: question,
         options: optionsCollection,
-        answers: answersCollection
+        answer: answer
 
       }
 
     ]
-
-
-
-
     );
 
     setButton(true)
 
     setQuestion("");
     setOptions(initialOptionsState);
-    setAnswers([])
-
-
-
+    SetAnswer(null)
   }
-  console.log(questionsCollection)
+
+
 
 
   function checkButton() {
     if (buttonClickState) {
+
       return (
         <div>
           You are adding the following:
@@ -199,11 +140,13 @@ function CreateQuiz() {
             {
 
               questionsCollection.map(element => <div>
-                <div key="questions">question:{element.questions}</div>
+                <div key="questions">Question: {element.questions}</div>
+
+                Options:
+                {Object.values(element.options).map(option => <li>Option: {option}</li>)}
+
+                Right answer: {element.answer}
                 <br />
-                {Object.values(element.options).map(option => <li>option:{option}</li>)}
-                <br />
-                {element.answers.map(answer => <li>answer:{answer}</li>)}
 
               </div>)
 
@@ -216,6 +159,9 @@ function CreateQuiz() {
         </div>
       );
     } else return <div></div>;
+
+
+
   }
 
 
@@ -243,7 +189,7 @@ function CreateQuiz() {
   }
 
 
-
+  console.log(selectedCategory)
 
 
 
@@ -273,7 +219,7 @@ function CreateQuiz() {
               <fieldset>
                 <label>
                   <p>Title:</p>
-                  <input type="text" value={title} onChange={changeTitle} autoFocus />
+                  <input className="inputTitle" type="text" value={title} onChange={changeTitle} autoFocus />
                 </label>
                 <br />
                 <label>
@@ -288,26 +234,27 @@ function CreateQuiz() {
               <fieldset>
                 <label>
                   <p>Question:</p>
-                  <input name="question" type="text" value={question} onChange={handleQuestionChange} />
+                  <input className="inputQuestion" name="question" type="text" value={question} onChange={handleQuestionChange} />
                 </label>
                 <br />
                 <label>
-                  <p>Options:</p>
-                  <input name="option1" type="text" value={optionsCollection.option1} onChange={handleOptionsChange} />
-                  <input name="option2" type="text" value={optionsCollection.option2} onChange={handleOptionsChange} />
-                  <input name="option3" type="text" value={optionsCollection.option3} onChange={handleOptionsChange} />
-                  <input name="option4" type="text" value={optionsCollection.option4} onChange={handleOptionsChange} />
+                  <p>Options and choose a right answer:</p>
+                  <input className="inputOption" name="option1" type="text" value={optionsCollection.option1} onChange={handleOptionsChange} />
+                  <input type="radio" name="answer" value={optionsCollection.option1} checked={answer == optionsCollection.option1} onChange={handleChange} />
+                  <br />
+                  <input className="inputOption" name="option2" type="text" value={optionsCollection.option2} onChange={handleOptionsChange} />
+                  <input type="radio" name="answer" value={optionsCollection.option2} checked={answer == optionsCollection.option2} onChange={handleChange} />
+                  <br />
+                  <input className="inputOption" name="option3" type="text" value={optionsCollection.option3} onChange={handleOptionsChange} />
+                  <input type="radio" name="answer" value={optionsCollection.option3} checked={answer == optionsCollection.option3} onChange={handleChange} />
+                  <br />
+                  <input className="inputOption" name="option4" type="text" value={optionsCollection.option4} onChange={handleOptionsChange} />
+                  <input type="radio" name="answer" value={optionsCollection.option4} checked={answer == optionsCollection.option4} onChange={handleChange} />
 
 
                 </label>
                 <br />
-                <label>
-                  <p>Answers:</p>
-                  <input type="text" name="answer1" value={getaAnswer(0)} onChange={handleAnswersChange} />
-                  <input type="text" name="answer2" value={getaAnswer(1)} onChange={handleAnswersChange} />
-                  <input type="text" name="answer3" value={getaAnswer(2)} onChange={handleAnswersChange} />
 
-                </label>
                 <br />
                 <button className="btn" type="button" onClick={buttonHandel}>Add question</button>
               </fieldset>
