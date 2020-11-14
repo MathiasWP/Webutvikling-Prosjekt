@@ -137,6 +137,7 @@ class QuizService {
     }
   }
 
+
   async getCategories() {
     const categories = await db.collection('categories').doc('categories');
     try {
@@ -151,7 +152,7 @@ class QuizService {
     }
   }
 
-  async findQuizesByCategory(category: string | number, token: { i: string }) {
+  async findQuizesByCategory(category: number, token: { i: string }) {
     try {
       const isAllowed = await adminAuth.verifyIdToken(token.i)
       if (isAllowed.uid) {
