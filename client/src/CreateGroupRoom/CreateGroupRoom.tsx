@@ -27,6 +27,7 @@ function CreateGroupRoom() {
         fetchData();
     }, []);
 
+
     useEffect(() => {
       if(selectedCategory === -1) return;
       async function findQuiz() {
@@ -38,6 +39,8 @@ function CreateGroupRoom() {
         }
       }
       findQuiz()
+      console.log(selectedCategory)
+
     }, [selectedCategory])
 
     async function createQuizRoom(quizId) {
@@ -64,7 +67,7 @@ function CreateGroupRoom() {
         <div className="quiz-create">
           <Button onClick={() => {setCreateQuiz(false)}}>Tilbake</Button>
           <h2>Velg kategori</h2>
-          <select onChange={(e) => setSelectedCategory(e.currentTarget.value)} disabled={findingQuiz} >
+          <select onChange={(e) => setSelectedCategory(parseInt(e.currentTarget.value))} disabled={findingQuiz} >
             <option value={-1}>Velg kategori</option>
             {categories &&
             Object.entries(categories).map(([key, value]) => <option value={key} key={key}>{value}</option>)}
