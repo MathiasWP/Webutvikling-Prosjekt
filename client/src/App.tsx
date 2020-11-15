@@ -12,10 +12,13 @@ import UserProfile from './UserProfile/UserProfile';
 import CreateQuiz from './CreateQuiz/CreateQuiz';
 import CreateQuizSuccess from './CreateQuiz/CreateQuizSuccess'
 import Loading from './components/Loading/Loading';
+import QuizDetails from './QuizDetails/QuizDetails';
 
 import './App.scss';
 import quizService from './service/quiz-service'
 import { store } from './store/store';
+
+
 
 function App() {
   const { state, dispatch } = useContext(store);
@@ -90,6 +93,9 @@ function App() {
               <Route exact path="/user/create/success">
                 <CreateQuizSuccess />
               </Route>
+              <Route exact path="/user/quizes/:id" render={props => <QuizDetails {...props} />} />
+
+
               <Route>
                 <NoMatch />
               </Route>

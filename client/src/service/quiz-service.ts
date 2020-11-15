@@ -90,6 +90,17 @@ class QuizService {
       .catch(error => console.error(error))
   }
 
+  getQuizDetails(id) {
+    return axios.get('/getquzidetails/' + id).then((response) => response.data)
+  }
+
+  updateQuiz(newQuestions, quizId) {
+    return axios.put('/updateQuiz/' + quizId, newQuestions)
+      .then((response) => response.data)
+      .catch(error => console.error(error))
+
+  }
+
   getCurrentUserToken() {
     return this.getCurrentUser()?.getIdToken();
   }
@@ -139,13 +150,13 @@ class QuizService {
   }
 
 
-  async createQuizRoom(room: any){
+  async createQuizRoom(room: any) {
     return await axios.post('/createroom', room)
   }
 
 
-  async getQuizById(id: string){
-    return await axios.post('/getquiz', {id: id})
+  async getQuizById(id: string) {
+    return await axios.post('/getquiz', { id: id })
   }
 
   async addUserToQuizRoom(data: any, roomId: string) {
@@ -161,7 +172,7 @@ class QuizService {
       return response.data;
     } catch (error) {
       throw Error(error.message)
-    }  
+    }
   }
 
   async removeUserFromQuizRoom(data: any, roomId: string) {
@@ -177,30 +188,30 @@ class QuizService {
       return response.data;
     } catch (error) {
       throw Error(error.message)
-    }  
+    }
   }
 
-   async beginQuizRoom(roomId: string) {
+  async beginQuizRoom(roomId: string) {
     try {
       const response = await axios.post('/beginquizroom', {
-      data: {
+        data: {
           token: this.getCurrentUserToken(),
           roomId
-        } 
+        }
       });
 
       return response.data;
     } catch (error) {
       throw Error(error.message)
-    }  
+    }
   }
-   async changeQuizRoomRound(roomId: string) {
+  async changeQuizRoomRound(roomId: string) {
     try {
       const response = await axios.post('/changequizroomround', {
-      data: {
+        data: {
           token: this.getCurrentUserToken(),
           roomId
-        } 
+        }
       });
 
       //console.log(response)
@@ -208,7 +219,7 @@ class QuizService {
       return response.data;
     } catch (error) {
       throw Error(error.message)
-    }  
+    }
   }
 
 }

@@ -47,6 +47,7 @@ function CreateQuiz() {
       .catch((error: Error) => console.log('Error getting categories: ' + error.message));
 
   };
+
   useEffect(() => {
     getCategories()
   }, [setCategories])
@@ -110,7 +111,7 @@ function CreateQuiz() {
 
     setQuestionsCollection((prev) => [
       ...prev, {
-        questions: question,
+        question: question,
         options: optionsCollection,
         answer: answer
 
@@ -180,7 +181,7 @@ function CreateQuiz() {
       .submitQuiz(quizData)
       .then(response => {
         history.push("/user/create/success");
-        console.log('Success:', response)
+
       })
       .catch((error: Error) => console.log('Error ' + error.message));
 
@@ -206,24 +207,17 @@ function CreateQuiz() {
             <h2>Make your own quiz</h2>
             {checkButton()}
 
-
-
-
-
-
-
-
             <form className="mainForm" onSubmit={handleSubmit}>
 
 
               <fieldset>
                 <label>
                   <p>Title:</p>
-                  <input className="inputTitle" type="text" value={title} onChange={changeTitle} autoFocus />
+                  <input className="inputTitle" type="text" value={title} onChange={changeTitle} autoFocus required />
                 </label>
                 <br />
                 <label>
-                  <p>Choose categorier:</p>
+                  <p>Choose a category:</p>
                   <select value={selectedCategory} onChange={getSelectedCategory}>
                     {Object.keys(categories).map((key) => <option value={key}>{categories[key]}</option>)}
                   </select>

@@ -101,6 +101,29 @@ router.post('/submitquiz', (request, response) => {
 
 })
 
+router.get('/getquzidetails/:id', (request, response) => {
+    const id = request.params.id
+    quizService
+        .getQuizDetails(id)
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
+
+})
+
+router.put('/updateQuiz/:id', (request, response) => {
+
+    const newQuestions = request.body
+
+    const quizId = request.params.id
+
+    quizService
+        .updateQuiz(newQuestions, quizId)
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
+
+
+})
+
 router.post('/createroom', async (request, response) => {
     const body = request.body;
     try {
@@ -161,6 +184,7 @@ router.post("/changequizroomround", async (request, response) => {
         return response.status(500).send(error)
     }
 })
+
 
 
 

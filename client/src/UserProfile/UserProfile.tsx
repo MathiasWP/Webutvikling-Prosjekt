@@ -10,7 +10,12 @@ import Loading from '../components/Loading/Loading'
 
 import { store } from '../store/store';
 
+import { NavLink } from 'react-router-dom'
+
+import { useHistory } from 'react-router-dom';
+
 function UserProfile() {
+    const history = useHistory();
     const { state } = useContext(store);
 
     const [password, setPassword] = useState('');
@@ -18,15 +23,16 @@ function UserProfile() {
     const [showSaveUsername, setShowSaveUsername] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const storedUsername = useRef();
-    const [error, setError] = useState({error: '', message: ''});
+    const [error, setError] = useState({ error: '', message: '' });
     const [feedback, setFeedback] = useState(null);
 
-    function handleError(error: {code: string, message: string}) {
-        const {code, message} = error;
-        setError({error: code, message: message});
+    function handleError(error: { code: string, message: string }) {
+        const { code, message } = error;
+        setError({ error: code, message: message });
         setIsLoading(false);
     }
-  
+
+
     function handleLogIn() {
         setIsLoading(true);
 
@@ -37,7 +43,7 @@ function UserProfile() {
             .catch(error => handleError(error))
     }
 
-    
+
     function handleCreateUser() {
         setIsLoading(true);
         quizService.createUser(username, password)
@@ -52,12 +58,12 @@ function UserProfile() {
 
 
     function handleUsernameChange(e) {
-        const value = e.currentTarget.value 
+        const value = e.currentTarget.value
         setUsername(value);
         setShowSaveUsername(value !== storedUsername.current);
     }
 
-    
+
     function changeUserName() {
         quizService
             .changeUsername(username)
@@ -74,7 +80,7 @@ function UserProfile() {
     }
 
     useEffect(() => {
-        if(state.user?.name) {
+        if (state.user?.name) {
             const currentValue = state.user.name;
             setUsername(currentValue);
             storedUsername.current = currentValue;
@@ -82,65 +88,72 @@ function UserProfile() {
         }
     }, [state])
 
-  return (
-    <div className="UserProfile">
-        {
-            isLoading ?
-                <Loading label="Trying to log you in..."/>
-                :
-                <div id="profile-info">
-                    {
-                    state?.user && state?.auth ?
-                    <>
-                        <div className="row">
-                        Username: <Input value={username} onChange={handleUsernameChange}/>
-                            {
-                                showSaveUsername &&
-                                <Button type="success" onClick={changeUserName}>Save</Button>
-                            }
-                            </div>
-                            {
-                                feedback?.type === "username" &&
-                                <p id="feedback-username">{feedback.message}</p>
-                            }
-                        <div className="row">
-                            Created at: {state.user.created}
-                        </div>
-                        <section id="quizes">
-                            Your quizes:
-                            {
-                                state?.user?.quizes && Object.keys(state.user.quizes).length ?
-                                <>
-                                    {Object.values(state.user.quizes).map(q => <p key={q.id}>{q.name}</p>)}
-                                </>
-                                : 
-                                <p>You have no quizes</p>
-                            }
-                        </section>
-                        <Button id="log-out" onClick={handleSignOut}>Log out</Button>
-                    </>
+    return (
+        <div className="UserProfile">
+            {
+                isLoading ?
+                    <Loading label="Trying to log you in..." />
                     :
-                    <>
-                        <div className="row">
-                        Username: <Input value={username} onChange={(e) => setUsername(e.currentTarget.value)}/>
-                        </div>
-                        <div className="row">
-                        Password: <Input value={password} onChange={(e) => setPassword(e.currentTarget.value)}/>
-                        </div>
+                    <div id="profile-info">
                         {
-                            error.error && error.message  &&
-                        <div id="error-message" >{error.message}</div>
+                            state?.user && state?.auth ?
+                                <>
+                                    <div className="row">
+                                        Username: <Input value={username} onChange={handleUsernameChange} />
+                                        {
+                                            showSaveUsername &&
+                                            <Button type="success" onClick={changeUserName}>Save</Button>
+                                        }
+                                    </div>
+                                    {
+                                        feedback?.type === "username" &&
+                                        <p id="feedback-username">{feedback.message}</p>
+                                    }
+                                    <div className="row">
+                                        Created at: {state.user.created}
+                                    </div>
+                                    <section id="quizes">
+                                        Your quizes:
+                            {
+                                            state?.user?.quizes && state.user.quizes.length ?
+                                                <>
+                                                    {state.user.quizes.map(q =>
+                                                        <ul>
+                                                            <li><NavLink to={'/user/quizes/' + q.quizid}>{q.name}</NavLink></li>
+                                                        </ul>
+
+                                                    )}
+
+
+                                                </>
+                                                :
+                                                <p>You have no quizes</p>
+                                        }
+                                    </section>
+                                    <Button id="log-out" onClick={handleSignOut}>Log out</Button>
+                                </>
+                                :
+                                <>
+                                    <div className="row">
+                                        Username: <Input value={username} onChange={(e) => setUsername(e.currentTarget.value)} />
+                                    </div>
+                                    <div className="row">
+                                        Password: <Input value={password} onChange={(e) => setPassword(e.currentTarget.value)} />
+                                    </div>
+                                    {
+                                        error.error && error.message &&
+                                        <div id="error-message" >{error.message}</div>
+                                    }
+                                    <div id="buttons-wrapper">
+                                        <Button onClick={handleCreateUser}>Create user</Button>
+                                        <Button onClick={handleLogIn}>Log in</Button>
+                                    </div>
+                                </>
                         }
-                        <div id="buttons-wrapper">
-                        <Button onClick={handleCreateUser}>Create user</Button>
-                        <Button onClick={handleLogIn}>Log in</Button>
-                        </div>
-                    </>
-                    }
-                </div>
-        }
-    </div>
-  );
+                    </div>
+            }
+        </div>
+    );
 }
 
 export default UserProfile;
