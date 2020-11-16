@@ -88,6 +88,45 @@ function UserProfile() {
         }
     }, [state])
 
+    function updateQuiz() {
+
+        const quizId = props.match.params.id
+
+        const newQuestions = questions
+
+        quizService
+            .updateQuiz(newQuestions, quizId)
+            .then(response => {
+                history.push("/user/update/success");
+
+
+            })
+            .catch((error: Error) => console.log('Error ' + error.message));
+
+
+
+    }
+
+    function deleteQuizInBoth(quizObject) {
+
+        const userId = quizService.getCurrentUser().uid
+        const quizId = quizObject.quizid
+
+
+        quizService.deleteQuizInUsers(userId, quizObject)
+            .then(() => quizService.deleteQuiz(quizId))
+            .then(response => {
+                console.log("success delete")
+
+
+            })
+
+            .catch((error: Error) => console.log('Error ' + error.message));
+
+
+
+    }
+
     return (
         <div className="UserProfile">
             {
@@ -119,7 +158,7 @@ function UserProfile() {
                                                 <>
                                                     {state.user.quizes.map(q =>
                                                         <ul>
-                                                            <li><NavLink to={'/user/quizes/' + q.quizid}>{q.name}</NavLink></li>
+                                                            <li><NavLink to={'/user/quizes/' + q.quizid}>{q.name}</NavLink> <button onClick={(e) => deleteQuizInBoth(q)}>Delete</button></li>
                                                         </ul>
 
                                                     )}

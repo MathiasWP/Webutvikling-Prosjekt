@@ -139,6 +139,33 @@ class QuizService {
       });
   }
 
+  deleteQuiz(quizId) {
+
+    console.log("deleteQuiz2 " + quizId)
+
+    return db
+      .collection("quizes")
+      .doc(quizId)
+      .delete().then(function () {
+        console.log("Document successfully deleted!");
+      }).catch(function (error) {
+        console.error("Error removing document: ", error);
+      });
+
+  }
+
+  deleteQuizInUsers(userId, quizObject) {
+    console.log(JSON.stringify(quizObject))
+    return db
+      .collection("users")
+      .doc(userId)
+      .update({
+        "quizes": _firestore.FieldValue.arrayRemove(quizObject)
+      });
+  }
+
+
+
   async changeUserName(userName: string, token: { i: string }) {
     try {
       const isAllowed = await adminAuth.verifyIdToken(token.i)

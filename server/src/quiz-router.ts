@@ -124,6 +124,34 @@ router.put('/updateQuiz/:id', (request, response) => {
 
 })
 
+router.delete('/deleteQuiz/:id', (request, response) => {
+
+    const quizId = request.params.id
+
+    console.log("deleteQuiz " + quizId)
+
+    quizService
+        .deleteQuiz(quizId)
+        .then(data => response.send())
+        .catch(error => response.status(500).send(error))
+
+
+}
+)
+
+router.delete('/deleteQuizInUsers/:id', (request, response) => {
+    const quizObject = request.body
+    const userId = request.params.id
+
+    console.log("deleteQuizInUsers " + userId + " obj: " + quizObject)
+    quizService
+        .deleteQuizInUsers(userId, quizObject)
+        .then(data => response.send())
+        .catch(error => response.status(500).send(error))
+
+
+})
+
 router.post('/createroom', async (request, response) => {
     const body = request.body;
     try {

@@ -99,6 +99,24 @@ class QuizService {
       .then((response) => response.data)
       .catch(error => console.error(error))
 
+
+  }
+
+  deleteQuiz(quizId) {
+    console.log("deleteQuiz " + quizId)
+    return axios.delete('/deleteQuiz/' + quizId)
+      .then((response) => response.data)
+      .catch(error => console.error(error))
+
+
+  }
+
+  deleteQuizInUsers(userId, quizObject) {
+    console.log("deleteQuizInUsers " + userId + " obj: " + quizObject)
+    return axios.delete('/deleteQuizInUsers/' + userId, { data: quizObject })
+      .then((response) => response.data)
+      .catch(error => console.error(error))
+
   }
 
   getCurrentUserToken() {
