@@ -3,12 +3,15 @@ import quizService from '../service/quiz-service';
 import { useParams } from 'react-router-dom'
 import firebase from 'firebase'
 import './QuizDetails.scss';
+import { useHistory } from 'react-router-dom';
 
 
 
 function QuizDetails(props) {
 
-    /*cost  questions = [{ question: "", options: {}, answer: "" }]*/
+    const history = useHistory();
+
+
 
     const [questions, setQuestions] = useState([{ question: "", options: {}, answer: "" }])
 
@@ -47,12 +50,7 @@ function QuizDetails(props) {
         )))
     }
 
-    /*function updateEachOption(index, e) {
-        console.log("index: " + index + " event " + e.target.value)
-        setQuestions(prevState => (prevState.map(
-            (el, idx) => idx === index ? { ...el, : e.target.value } : el
-        )))
-    }*/
+
 
     function updateQuiz() {
 
@@ -63,7 +61,8 @@ function QuizDetails(props) {
         quizService
             .updateQuiz(newQuestions, quizId)
             .then(response => {
-                console.log("success")
+                history.push("/user/update/success");
+
 
             })
             .catch((error: Error) => console.log('Error ' + error.message));
@@ -71,6 +70,8 @@ function QuizDetails(props) {
 
 
     }
+
+
 
 
     return (

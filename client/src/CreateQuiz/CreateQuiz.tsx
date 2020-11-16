@@ -31,15 +31,15 @@ function CreateQuiz() {
   const user = useAuth();
 
 
-  const [title, setTitle] = useState("");
+  const [title: string, setTitle] = useState("");
   function changeTitle(e) {
-    const newTitle = e.target.value;
+    const newTitle: string = e.target.value;
     setTitle(newTitle);
 
   };
 
 
-  const [categories, setCategories] = useState([]);
+  const [categories: object, setCategories] = useState([]);
   function getCategories() {
     quizService
       .getQuestionsCategories()
@@ -53,7 +53,7 @@ function CreateQuiz() {
   }, [setCategories])
 
 
-  const [selectedCategory, setSelectedCategory] = useState("1");
+  const [selectedCategory: string, setSelectedCategory] = useState("1");
   function getSelectedCategory(e) {
     const newSelected = e.target.value;
     setSelectedCategory(newSelected)
@@ -61,10 +61,10 @@ function CreateQuiz() {
 
 
 
-  const [question, setQuestion] = useState("");
+  const [question: string, setQuestion] = useState("");
   function handleQuestionChange(e) {
 
-    const newQuestion = e.target.value;
+    const newQuestion: string = e.target.value;
     setQuestion(newQuestion);
 
   };
@@ -141,7 +141,7 @@ function CreateQuiz() {
             {
 
               questionsCollection.map(element => <div>
-                <div key="questions">Question: {element.questions}</div>
+                <div key="question">Question: {element.question}</div>
 
                 Options:
                 {Object.values(element.options).map(option => <li>Option: {option}</li>)}
@@ -234,16 +234,16 @@ function CreateQuiz() {
                 <label>
                   <p>Options and choose a right answer:</p>
                   <input className="inputOption" name="option1" type="text" value={optionsCollection.option1} onChange={handleOptionsChange} />
-                  <input type="radio" name="answer" value={optionsCollection.option1} checked={answer == optionsCollection.option1} onChange={handleChange} />
+                  <input className="radio" type="radio" name="answer" value={optionsCollection.option1} checked={answer == optionsCollection.option1} onChange={handleChange} />
                   <br />
                   <input className="inputOption" name="option2" type="text" value={optionsCollection.option2} onChange={handleOptionsChange} />
-                  <input type="radio" name="answer" value={optionsCollection.option2} checked={answer == optionsCollection.option2} onChange={handleChange} />
+                  <input className="radio" type="radio" name="answer" value={optionsCollection.option2} checked={answer == optionsCollection.option2} onChange={handleChange} />
                   <br />
                   <input className="inputOption" name="option3" type="text" value={optionsCollection.option3} onChange={handleOptionsChange} />
-                  <input type="radio" name="answer" value={optionsCollection.option3} checked={answer == optionsCollection.option3} onChange={handleChange} />
+                  <input className="radio" type="radio" name="answer" value={optionsCollection.option3} checked={answer == optionsCollection.option3} onChange={handleChange} />
                   <br />
                   <input className="inputOption" name="option4" type="text" value={optionsCollection.option4} onChange={handleOptionsChange} />
-                  <input type="radio" name="answer" value={optionsCollection.option4} checked={answer == optionsCollection.option4} onChange={handleChange} />
+                  <input className="radio" type="radio" name="answer" value={optionsCollection.option4} checked={answer == optionsCollection.option4} onChange={handleChange} />
 
 
                 </label>

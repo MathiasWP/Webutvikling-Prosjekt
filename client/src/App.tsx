@@ -13,9 +13,12 @@ import CreateQuiz from './CreateQuiz/CreateQuiz';
 import CreateQuizSuccess from './CreateQuiz/CreateQuizSuccess'
 import Loading from './components/Loading/Loading';
 import QuizDetails from './QuizDetails/QuizDetails';
+import quizService from './service/quiz-service';
+import UpdateQuizSuccess from './QuizDetails/UpdateQuizSuccess';
 
 import './App.scss';
-import quizService from './service/quiz-service'
+
+
 import { store } from './store/store';
 
 
@@ -94,6 +97,9 @@ function App() {
                 <CreateQuizSuccess />
               </Route>
               <Route exact path="/user/quizes/:id" render={props => <QuizDetails {...props} />} />
+              <Route exact path="/user/update/success">
+                <UpdateQuizSuccess />
+              </Route>
 
 
               <Route>
