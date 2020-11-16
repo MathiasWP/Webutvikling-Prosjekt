@@ -16,6 +16,7 @@
     "@types/react-router-dom": "^5.1.6",
     "axios": "^0.21.0",
     "firebase": "^8.0.0",
+    "jest": "^26.6.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
@@ -29,7 +30,7 @@
     "build": "webpack --mode production",
     "start-react-old": "react-scripts start",
     "build-react-old": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --verbose",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
