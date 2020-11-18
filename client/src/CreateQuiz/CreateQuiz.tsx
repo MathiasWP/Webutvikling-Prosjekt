@@ -161,7 +161,7 @@ function CreateQuiz() {
         user ?
           <>
             <h2>Make your own quiz</h2>
-            <form className="mainForm" onSubmit={handleSubmit}>
+            <form className="mainForm">
               <fieldset>
                 <label>
                   <p>Title:</p>
@@ -199,15 +199,21 @@ function CreateQuiz() {
                 <br />
                 <Button type="success" onClick={buttonHandel} disabled={Object.values(optionsCollection).some(o => o.trim().length === 0) || !answer}>Add question</Button>
               </fieldset>
-              <Button htmlType="submit" disabled={questionsCollection.length < 1}>
-                Create quiz
-                </Button>
+
             </form>
 
 
             <div className="addedQuestions">
               <h3>You are adding the following:</h3>
             {checkButton()}
+            </div>
+
+            <div className="create-quiz">
+                <h4>Name of quiz: {title}</h4>
+                <h4>Amount of questions: {questionsCollection.length}</h4>
+                <Button onClick={ handleSubmit} disabled={questionsCollection.length < 1 || !title}>
+                Create quiz
+                </Button>
             </div>
           </>
           :
