@@ -3,12 +3,12 @@ name: ci
 on:
   push:
     branches:
-      - main
+      - master
       - dev
   pull_request:
     branches:
       - dev
-      - main
+      - master
 
 jobs:
   ci:
@@ -28,15 +28,36 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Cache node_modules 📦
+      - name: Cache node_modules client 📦
         uses: actions/cache@v2
+        working-directory: ./client
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Install dependencies 👨🏻‍💻
-        run: npm ci
 
-      - name: Run tests 🧪
+      - name: Cache node_modules client 📦
+        uses: actions/cache@v2
+        working-directory: ./server
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      
+      - name: Install client dependencies 👨🏻‍💻
+        working-directory: ./client
+        run: npm i
+      
+      - name: Install server dependencies 👨🏻‍💻
+        working-directory: ./server
+        run: npm i
+
+      - name: Run client tests 🧪
+        working-directory: ./client
+        run: npm run test
+
+      - name: Run server tests 🧪
+        working-directory: ./server
         run: npm run test
