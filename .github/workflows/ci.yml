@@ -3,10 +3,13 @@ name: ci
 on:
   push:
     branches:
-      - master
- pull_request:
+      - main
+      - dev
+  pull_request:
     branches:
-      - master
+      - dev
+      - main
+
 jobs:
   ci:
     runs-on: ${{ matrix.os }}
