@@ -5,7 +5,7 @@ import app from './app';
 import http from 'http';
 import QuizSocket from './quiz-socket'
 
-const port = 3001;
+const port = 3000;
 
 const webServer = http.createServer(app);
 const chatServer = new QuizSocket(webServer, '/api/v1');

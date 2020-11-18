@@ -14,7 +14,7 @@ class SocketService {
      *
      * @private
      */
-    connection = new WebSocket('ws://localhost:3001/api/v1/grouproom');
+    connection = new WebSocket('ws://localhost:3000/api/v1/grouproom');
     /**
      * Component subscriptions.
      *
