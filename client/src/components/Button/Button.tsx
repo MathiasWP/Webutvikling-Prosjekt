@@ -10,6 +10,8 @@ function Button({children, onClick, htmlType="button", disabled = false, type = 
       break;
     case 'success':
       break;
+    case 'error':
+      break;
     default:
       console.error(`Type ${type} is not supported. Type has been set to "normal"`)
       type = 'normal'

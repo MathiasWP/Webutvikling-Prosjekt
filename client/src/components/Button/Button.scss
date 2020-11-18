@@ -26,6 +26,15 @@
       border: 2px solid #5feb6b;
     }
   }
+  &-error {
+    background-color: #ee4141;
+
+    &:not(:disabled):hover {
+      background-color: white;
+      color: #ee4141;
+      border: 2px solid #ee4141;
+    }
+  }
 }
 
 button:disabled {

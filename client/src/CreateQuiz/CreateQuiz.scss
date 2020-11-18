@@ -36,7 +36,11 @@
 
   input {
     flex: 1;
-    cursor: pointer;
+    cursor: text;
+
+    &.radio {
+      cursor: pointer;
+    }
   }
 }
 

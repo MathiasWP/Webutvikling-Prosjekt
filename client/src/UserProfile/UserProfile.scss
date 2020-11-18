@@ -59,4 +59,17 @@
     display: flex;
     justify-content: center;
   }
+
+  .quiz-link {
+    list-style-type: none;
+
+    a {
+      text-decoration: none;
+      color: white;
+      font-size: 3.5rem;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 }
