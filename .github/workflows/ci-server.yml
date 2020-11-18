@@ -32,6 +32,12 @@ jobs:
 
       - name: Install dependencies 👨🏻‍💻
         run: npm install
+     
+      - name: Add firebase config
+        run: cd ./server/keys && echo ${{ secrets.SERVER_CONFIG }} > config.ts
+     
+      - name: Add firebase service-account
+        run: cd ./server/keys && echo ${{ secrets.SERVER_SERVICE_ACCOUNT }} > serviceAccount.json
 
       - name: Run tests 🧪
         run: npm run test
