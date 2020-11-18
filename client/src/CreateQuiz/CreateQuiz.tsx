@@ -250,10 +250,10 @@ function CreateQuiz() {
                 <br />
 
                 <br />
-                <button className="btn" type="button" onClick={buttonHandel}>Add question</button>
+                <button className="btn" type="button" onClick={buttonHandel} >Add question</button>
               </fieldset>
               <br />
-              <input className="submitButton" type="submit" value="Submit" />
+              <input className="submitButton" type="submit" value="Submit" disabled={questionsCollection.length < 1}/>
 
             </form>
 

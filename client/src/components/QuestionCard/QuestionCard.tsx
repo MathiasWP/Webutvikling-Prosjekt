@@ -2,24 +2,28 @@ import React, { useEffect, useState } from 'react';
 
 import './QuestionCard.scss';
 
-type QuestionCardProps = {}; // This any is not correct
+type QuestionCardProps = {question: Record<string, unknown>, onAnswer: void, disabledAnswers: boolean}; // This any is not correct
 
 function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps) {
   const correctAnswer = question.answer // THIS WILL BE CHANGES FROM ARRAY TO STRING( changed !!!)
   const options = question.options;
   const questionText = question.question//Changed it from questions to question according to the change in createQuiz page;
   const [chosen, setChosen] = useState(null)
-  const [answersLocked, setAnswersLocked] = useState(false)
 
   function handleCheck(e) {
-    if (!answersLocked) {
+    if (!disabledAnswers) {
       setChosen(e.currentTarget.value)
     }
-    setAnswersLocked(true)
   }
 
+
+  console.log(disabledAnswers)
+
   useEffect(() => {
-    onAnswer(chosen)
+    if(chosen) {
+      onAnswer(chosen)
+      setChosen(null)
+    }
   }, [chosen])
 
   return (
@@ -32,7 +36,7 @@ function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps
             return (
               <li key={opt} value={opt}>
                 {value}
-                <input disabled={disabledAnswers || answersLocked} onChange={handleCheck} type="radio" name="choice" value={opt} />
+                <input checked={Boolean(chosen)} disabled={disabledAnswers} onChange={handleCheck} type="radio" name="choice" value={opt} />
               </li>
             )
           })

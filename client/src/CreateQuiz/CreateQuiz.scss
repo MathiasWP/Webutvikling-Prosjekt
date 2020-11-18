@@ -6,121 +6,102 @@
   display: grid;
   justify-items: center;
   align-content: center;
-  
-  
-  
-  padding: 10px
+
+  padding: 10px;
 }
 
-
 .SubmitSuccess {
-    height: 100vh;
+  height: 100vh;
   min-height: 30rem;
   width: 100%;
   display: grid;
   justify-items: center;
   align-content: center;
-  padding: 10px
+  padding: 10px;
 }
 
-  
-
-
-
 h2 {
-    color:white;
-    font-size: 3rem;
-    text-transform: uppercase;
-    
-  }
+  color: white;
+  font-size: 3rem;
+  text-transform: uppercase;
+}
 
-p{
-    color: black;
-    font-size:1.5rem;
+p {
+  color: black;
+  font-size: 1.5rem;
 }
 
 select {
-    width: 50%;
-    padding:5px;
-    margin-top: 5px;;
-    margin-bottom: 5px;
-   
-    
+  width: 50%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.inputTitle {
+  width: 50%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.inputQuestion {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.inputOption {
+  width: 50%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  margin-right: 2px;
+  padding: 10px 25px;
+  background: white;
+  border: 1px solid #c0c0c0;
+  border-radius: 2px;
+  color: black;
+  font-size: 1.125em;
+  outline: none;
+  transition: all 100ms ease-out;
+  &:hover,
+  &:focus {
+    transform: translateY(-3px);
   }
+}
 
-  .inputTitle{
-    width: 50%;
-    padding:5px;
-    margin-top: 5px;;
-    margin-bottom: 5px;
-
+.submitButton {
+  color: black;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: white;
+  margin-left: 10px;
+  padding: 15px 40px;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  transition: all 0.4s ease 0s;
+  &:disabled {
+    cursor: not-allowed;
+    background: gray;
   }
-  .inputQuestion{
-    width: 100%;
-    padding:5px;
-    margin-top: 5px;;
-    margin-bottom: 5px;
-
-  }
-.inputOption{
-    width: 50%;
-    padding:5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-   
-
 }
 
-
-
-
-.btn{
-    display:inline-block;
-    margin-top:10px;
-    margin-right:2px;
-    padding: 10px 25px;
-    background:white;
-    border:1px solid #c0c0c0;
-    border-radius:2px;
-    color: black;
-    font-size:1.125em;
-    outline:none;
-    transition: all 100ms ease-out;
-    &:hover,&:focus{
-      transform: translateY(-3px);
-    }
+.submitButton:not(:disabled):hover {
+  background: pink;
+  letter-spacing: 1px;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+  box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+  transition: all 0.4s ease 0s;
 }
 
-
-.submitButton{
-color:black;
-text-transform: uppercase;
-text-decoration: none;
-background:white;
-margin-left:10px;
-padding: 15px 40px;
-border-radius: 5px;
-display: inline-block;
-border: none;
-transition: all 0.4s ease 0s;
-
-
+.showingQuiz {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-
-.submitButton:hover{
-    
-background:pink;
-letter-spacing: 1px;
--webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
--moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
-box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
-transition: all 0.4s ease 0s;
-}
-
-.showingQuiz{
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-
-   
