@@ -32,7 +32,7 @@ export const config = {
 }
 ```
 
-must be formatted like this:
+must be formatted like this (notice the \ (backslash) before the double-quotes):
 
 ```
 "export const config = { databaseURL: \"https://example-quiz.firebaseio.com\", apiKey: \"AIzaSyAewnWaweifu0sdvOY80.\", authDomain: \"example-quiz.firebaseapp.com\", projectId: \"example-quiz\", storageBucket: \"example-quiz.appspot.com\", messagingSenderId: \"w3409fuseriofj\", appId: \"1:293084092384:web:bc930458029348\" }"
