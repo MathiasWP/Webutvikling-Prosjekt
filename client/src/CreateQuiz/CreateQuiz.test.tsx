@@ -1,10 +1,18 @@
+/**
+ * Mandatory imports to make test work
+ */
+
 import React from 'react'; 
-import CreateQuiz from './CreateQuiz'; 
 import Adapter from 'enzyme-adapter-react-16';
 import { shallow, configure } from 'enzyme';
+configure({adapter: new Adapter()}); // Configure enzyme
 
-// Configure enzyme
-configure({adapter: new Adapter()});
+
+/**
+ * Test for CreateQuiz:
+ */
+
+import CreateQuiz from './CreateQuiz'; 
 
 describe('CreateQuiz', () => {
     const container = shallow(<CreateQuiz />);
