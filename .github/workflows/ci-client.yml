@@ -34,7 +34,7 @@ jobs:
         run: npm install
       
       - name: Add firebase config
-        run: cd ./client/src/config && echo ${{ secrets.CLIENT_CONFIG }} > config.ts
+        run: cd ./src/config && echo ${{ secrets.CLIENT_CONFIG }} > config.ts
 
       - name: Run tests 🧪
         run: npm run test
