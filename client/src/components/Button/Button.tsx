@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import './Button.scss';
 
-type ButtonProps = {children?: any, type?: string, disabled?: boolean, onClick?: any, other?: any  } // This any is not correct
+type ButtonProps = {children?: any, htmlType?: string, type?: string, disabled?: boolean, onClick?: any, other?: any  } // This any is not correct
 
-function Button({children, onClick, disabled = false, type = 'normal', ...other}:ButtonProps) {
+function Button({children, onClick, htmlType="button", disabled = false, type = 'normal', ...other}:ButtonProps) {
   switch (type) {
     case 'normal':
       break;
     case 'success':
+      break;
+    case 'error':
       break;
     default:
       console.error(`Type ${type} is not supported. Type has been set to "normal"`)
@@ -17,7 +19,7 @@ function Button({children, onClick, disabled = false, type = 'normal', ...other}
   }
 
   return (
-        <button {...other} className={`button button-${type}`} onClick={onClick} disabled={disabled}>
+        <button {...other} type={htmlType} className={`button button-${type}`} onClick={onClick} disabled={disabled}>
             {children}
         </button>
   );

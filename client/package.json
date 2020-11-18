@@ -15,6 +15,7 @@
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.6",
     "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
     "firebase": "^8.0.0",
     "jest": "^26.6.3",
     "react": "^17.0.1",
@@ -67,9 +68,12 @@
     "@typescript-eslint/parser": "^4.6.0",
     "@webpack-cli/serve": "^1.0.1",
     "babel-loader": "^8.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.12.1",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "prettier": "^2.1.2",
     "sass": "^1.27.1",
     "sass-loader": "^10.0.4",
@@ -77,5 +81,11 @@
     "webpack": "^5.3.1",
     "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "identity-obj-proxy"
+    }
   }
 }

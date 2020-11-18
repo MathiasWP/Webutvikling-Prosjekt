@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 
 function UserProfile() {
     const history = useHistory();
-    const { state } = useContext(store);
+    const { state, dispatch } = useContext(store);
 
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -100,8 +100,12 @@ function UserProfile() {
             .then(() => quizService.deleteQuiz(quizId))
             .then(response => {
                 console.log("success delete")
-
-
+                dispatch({
+                    type: 'REMOVE QUIZ', 
+                    payload: {
+                      id: quizId
+                    }
+                  })
             })
 
             .catch((error: Error) => console.log('Error ' + error.message));
@@ -135,13 +139,13 @@ function UserProfile() {
                                         Created at: {state.user.created}
                                     </div>
                                     <section id="quizes">
-                                        Your quizes:
+                                        <h2>Your quizes:</h2>
                             {
                                             state?.user?.quizes && state.user.quizes.length ?
                                                 <>
                                                     {state.user.quizes.map(q =>
-                                                        <ul>
-                                                            <li><NavLink to={'/user/quizes/' + q.quizid}>{q.name}</NavLink> <button onClick={(e) => deleteQuizInBoth(q)}>Delete</button></li>
+                                                        <ul className="quiz-link">
+                                                            <li><NavLink to={'/user/quizes/' + q.quizid}>{q.name}</NavLink> <Button type="error" onClick={(e) => deleteQuizInBoth(q)}>Delete</Button></li>
                                                         </ul>
 
                                                     )}

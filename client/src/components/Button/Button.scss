@@ -11,7 +11,7 @@
   &-normal {
     background-color: #ff7380;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: white;
       color: #ff7380;
       border: 2px solid #ff7380;
@@ -20,10 +20,31 @@
   &-success {
     background-color: #5feb6b;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: white;
       color: #5feb6b;
       border: 2px solid #5feb6b;
     }
   }
+  &-error {
+    background-color: #ee4141;
+
+    &:not(:disabled):hover {
+      background-color: white;
+      color: #ee4141;
+      border: 2px solid #ee4141;
+    }
+  }
+}
+
+button:disabled {
+  cursor: not-allowed;
+  color: white;
+  background-color: rgb(51, 51, 51);
+}
+
+button:disabled:hover {
+  color: white;
+  background-color: rgb(51, 51, 51);
+  border: 2px solid transparent;
 }

@@ -1,17 +1,35 @@
 import { isInaccessible } from '@testing-library/react';
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom'
 import quizService from '../service/quiz-service';
 import './CreateQuiz.scss';
-import firebase from 'firebase';
+import firebase from 'firebase'
 import { useHistory } from 'react-router-dom';
-import { stringify } from 'querystring';
-
+import { store } from '../store/store';
+import Input from '../components/Input/Input'
+import Button from '../components/Button/Button'
+import Select from '../components/Select/Select'
 
 
 function CreateQuiz() {
-
   const history = useHistory();
+  const { state, dispatch } = useContext(store);
+  const [title: string, setTitle] = useState("");
+  const [categories: object, setCategories] = useState([]);
+  const [question: string, setQuestion] = useState("");
+  const [answer, SetAnswer] = useState();
+  const [checked, setChecked] = useState();
+  const [questionsCollection, setQuestionsCollection] = useState([])
+  const [buttonClickState, setButton] = useState(false)
+  const initialOptionsState = {
+    option1: "",
+    option2: "",
+    option3: "",
+    option4: ""
+  }
+  const [optionsCollection, setOptions] = useState(initialOptionsState);
+  const [selectedCategory: string, setSelectedCategory] = useState("1");
+  let questionId = 1
 
   const useAuth = () => {
     const fireUser = firebase.auth().currentUser;
@@ -28,21 +46,15 @@ function CreateQuiz() {
     return user;
   };
 
-
-  const user: firebase.User | null = useAuth();
-
+  const user = useAuth();
 
 
-
-  const [title, setTitle] = useState<string>("");
   function changeTitle(e) {
     const newTitle: string = e.target.value;
     setTitle(newTitle);
 
   };
 
-
-  const [categories, setCategories] = useState([]);
   function getCategories() {
     quizService
       .getQuestionsCategories()
@@ -56,125 +68,74 @@ function CreateQuiz() {
   }, [setCategories])
 
 
-  const [selectedCategory, setSelectedCategory] = useState<string>("1");
   function getSelectedCategory(e) {
     const newSelected = e.target.value;
     setSelectedCategory(newSelected)
   }
 
-
-
-  const [question, setQuestion] = useState<string>("");
   function handleQuestionChange(e) {
-
     const newQuestion: string = e.target.value;
     setQuestion(newQuestion);
-
   };
 
-  interface Options {
-    option1: string;
-    option2: string;
-    option3: string;
-    option4: string;
-  }
-
-
-  const initialOptionsState: Options = {
-    option1: "",
-    option2: "",
-    option3: "",
-    option4: ""
-
-  }
-  const [optionsCollection, setOptions] = useState<Options>(initialOptionsState);
+  
   function handleOptionsChange(e) {
-    const newValue = e.target.value;
-    const inputName = e.target.name;
-
+    const newValue = e.currentTarget.value;
+    const inputName = e.currentTarget.name;
 
     setOptions(preValue => {
       return {
         ...preValue,
         [inputName]: newValue
-
       }
-
     })
   };
 
-
-  const [answer, SetAnswer] = useState<string | null>();
   function handleChange(e) {
-    const newAnswer = e.target.value;
+    const newAnswer = e.currentTarget.value;
+    const checked = e.currentTarget.name;
+    setChecked(checked)
     SetAnswer(newAnswer)
   }
 
-  interface Prevalue {
-    question: string;
-    options: Options;
-    answer: string | null;
-  }
-
-  let questionId = 1
-  const [questionsCollection, setQuestionsCollection] = useState<[{ question: string, options: {}, answer: string }]>([])
-  const [buttonClickState, setButton] = useState(false)
   function buttonHandel() {
-
-    questionId = questionId + 1
-
-    setQuestionsCollection((prev: Prevalue) => [
+    questionId = questionId + 1;
+    setQuestionsCollection((prev) => [
       ...prev, {
         question: question,
         options: optionsCollection,
         answer: answer
-
       }
-
     ]
     );
 
     setButton(true)
-
     setQuestion("");
     setOptions(initialOptionsState);
     SetAnswer(null)
   }
 
-
-
-
   function checkButton() {
     if (buttonClickState) {
-
       return (
-        <div>
-          You are adding the following:
+        <div className="addedQuestion">
           <ul>
-
             {
-
-              questionsCollection.map(element => <div>
-                <div key="question">Question: {element.question}</div>
-
+              questionsCollection.map(element => <li className="option">
+                <h4 key="question">Question: {element.question}</h4>
                 Options:
                 {Object.values(element.options).map(option => <li>Option: {option}</li>)}
-
-                Right answer: {element.answer}
+                <b>Right answer: {element.answer}</b>
                 <br />
-
-              </div>)
+              </li>)
             }
-
           </ul>
         </div>
       );
     } else return <div></div>;
   }
 
-
-  function handleSubmit(e) {
-
+  function handleSubmit(e: Event) {
     e.preventDefault();
 
     const quizData = {
@@ -188,78 +149,72 @@ function CreateQuiz() {
       .submitQuiz(quizData)
       .then(response => {
         history.push("/user/create/success");
-
       })
       .catch((error: Error) => console.log('Error ' + error.message));
 
     setTitle("")
-
   }
-
 
   return (
     <div className="CreateQuiz" >
       {
         user ?
           <>
-
             <h2>Make your own quiz</h2>
-            {checkButton()}
-
-            <form className="mainForm" onSubmit={handleSubmit}>
-
-
+            <form className="mainForm">
               <fieldset>
                 <label>
                   <p>Title:</p>
-                  <input className="inputTitle" type="text" value={title} onChange={changeTitle} autoFocus required />
+                  <Input type="text" value={title} onChange={changeTitle} autoFocus required />
                 </label>
                 <br />
                 <label>
                   <p>Choose a category:</p>
-                  <select value={selectedCategory} onChange={getSelectedCategory}>
+                  <Select value={selectedCategory} onChange={getSelectedCategory}>
                     {Object.keys(categories).map((key) => <option value={key}>{categories[key]}</option>)}
-                  </select>
+                  </Select>
                 </label>
 
               </fieldset>
-
               <fieldset>
                 <label>
                   <p>Question:</p>
-                  <input className="inputQuestion" name="question" type="text" value={question} onChange={handleQuestionChange} />
+                  <Input name="question" type="text" value={question} onChange={handleQuestionChange} />
                 </label>
                 <br />
                 <label>
                   <p>Options and choose a right answer:</p>
-                  <input className="inputOption" name="option1" type="text" value={optionsCollection.option1} onChange={handleOptionsChange} />
-                  <input className="radio" type="radio" name="answer" value={optionsCollection.option1} checked={answer == optionsCollection.option1} onChange={handleChange} />
-                  <br />
-                  <input className="inputOption" name="option2" type="text" value={optionsCollection.option2} onChange={handleOptionsChange} />
-                  <input className="radio" type="radio" name="answer" value={optionsCollection.option2} checked={answer == optionsCollection.option2} onChange={handleChange} />
-                  <br />
-                  <input className="inputOption" name="option3" type="text" value={optionsCollection.option3} onChange={handleOptionsChange} />
-                  <input className="radio" type="radio" name="answer" value={optionsCollection.option3} checked={answer == optionsCollection.option3} onChange={handleChange} />
-                  <br />
-                  <input className="inputOption" name="option4" type="text" value={optionsCollection.option4} onChange={handleOptionsChange} />
-                  <input className="radio" type="radio" name="answer" value={optionsCollection.option4} checked={answer == optionsCollection.option4} onChange={handleChange} />
 
-
+                  {
+                    Object.entries(optionsCollection).map(([key, value], i) => {
+                      return (
+                          <span key={key} className="optionInput">
+                             <Input name={`option${i+1}`} type="text" value={value} onChange={handleOptionsChange} />
+                              <input className="radio" type="radio" name={`answer${i+1}`} value={value} checked={answer == value && checked ===`answer${i+1}`} onChange={handleChange} />
+                          </span>
+                      )
+                    })
+                  }    
                 </label>
                 <br />
-
-                <br />
-                <button className="btn" type="button" onClick={buttonHandel}>Add question</button>
+                <Button type="success" onClick={buttonHandel} disabled={Object.values(optionsCollection).some(o => o.trim().length === 0) || !answer}>Add question</Button>
               </fieldset>
-              <br />
-              <input className="submitButton" type="submit" value="Submit" />
 
             </form>
 
 
+            <div className="addedQuestions">
+              <h3>You are adding the following:</h3>
+            {checkButton()}
+            </div>
 
-
-
+            <div className="create-quiz">
+                <h4>Name of quiz: {title}</h4>
+                <h4>Amount of questions: {questionsCollection.length}</h4>
+                <Button onClick={ handleSubmit} disabled={questionsCollection.length < 1 || !title}>
+                Create quiz
+                </Button>
+            </div>
           </>
           :
           <>

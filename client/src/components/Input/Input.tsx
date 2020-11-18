@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import './Input.scss';
 
-type InputProps = {type?: string, value?: string, onChange?: any } // This any is not correct
+type InputProps = {type?: string, name?: string, value?: string, onChange?: any } // This any is not correct
 
-function Input({type = "text", value = '', onChange}:InputProps) {
+function Input({type = "text", name = '', value = '', onChange}:InputProps) {
   return (
-    <input className="input" type={type} value={value} onChange={onChange} />
+    <input className="input" name={name} type={type} value={value} onChange={onChange} />
   );
 }
 

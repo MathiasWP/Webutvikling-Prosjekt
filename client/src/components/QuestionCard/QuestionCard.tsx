@@ -2,42 +2,48 @@ import React, { useEffect, useState } from 'react';
 
 import './QuestionCard.scss';
 
-type QuestionCardProps = {}; // This any is not correct
+type QuestionCardProps = {question: Record<string, unknown>, onAnswer: void, disabledAnswers: boolean}; // This any is not correct
 
 function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps) {
   const correctAnswer = question.answer // THIS WILL BE CHANGES FROM ARRAY TO STRING( changed !!!)
   const options = question.options;
   const questionText = question.question//Changed it from questions to question according to the change in createQuiz page;
   const [chosen, setChosen] = useState(null)
-  const [answersLocked, setAnswersLocked] = useState(false)
 
   function handleCheck(e) {
-    if (!answersLocked) {
+    if (!disabledAnswers) {
       setChosen(e.currentTarget.value)
     }
-    setAnswersLocked(true)
   }
 
+
+  console.log(disabledAnswers)
+
   useEffect(() => {
-    onAnswer(chosen)
+    if(chosen) {
+      onAnswer(chosen)
+      setChosen(null)
+    }
   }, [chosen])
 
   return (
     <div>
-      <h1>{questionText}</h1>
-      <ul>
+      <h3>{questionText}</h3>
+      <div className="choices">
         {
-          Object.entries(options).map(([opt, value]) => {
+          Object.entries(options).map(([opt, value], i) => {
 
             return (
-              <li key={opt} value={opt}>
-                {value}
-                <input disabled={disabledAnswers || answersLocked} onChange={handleCheck} type="radio" name="choice" value={opt} />
-              </li>
+              <span key={opt} value={opt}>
+                <span className={`option ${disabledAnswers && 'disabled'}`} >
+                <input name={'choice' + i} disabled={disabledAnswers} id={'choice' + i} onChange={handleCheck} type="radio" value={opt} />
+                <label htmlFor={'choice' + i}>{value}</label>
+                </span>
+              </span>
             )
           })
         }
-      </ul>
+      </div>
     </div>
   );
 }

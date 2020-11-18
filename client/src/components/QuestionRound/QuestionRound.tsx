@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QuestionCard from '../QuestionCard/QuestionCard'
 import './QuestionRound.scss';
 import Button from '../Button/Button'
-type QuestionRoundProps = {}; // This any is not correct
+type QuestionRoundProps = {allQuestions: Record<string, unknown>, disabledAnswers: boolean, round: number, onAnswer: void, onChangeRound: void, isQuizMaster: boolean}; // This any is not correct
 
 function QuestionRound({allQuestions, disabledAnswers, round, onAnswer, onChangeRound, isQuizMaster}:QuestionRoundProps) {
   return (

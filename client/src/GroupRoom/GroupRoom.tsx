@@ -169,14 +169,17 @@ function GroupRoom() {
           setPlayers(players => players.filter(p => p.uid !== message.data.uid));
         }
         if(message.type === "QUIZ_ROOM") {
-          console.log(message.room)
+
           if(message.room.finished) {
-            alert("DONE")
+            //alert("DONE")
           }
+          console.log('CHANGED ROOM')
+          setDisabledAnswers(false);
           setQuizRoom(message.room)
         }
 
         if(message.type === 'DISABLE_PLAYER_OPTIONS' && message.uid === currentPlayer.current.uid) {
+          console.log('hello')
           setDisabledAnswers(true);
         }
 
@@ -262,6 +265,7 @@ function GroupRoom() {
         answer
       }
     })
+    setDisabledAnswers(true)
     console.log("I answered", answer)
   }
 
@@ -302,9 +306,9 @@ function GroupRoom() {
           <h3>Answers:</h3>
           <ul>
             {
-              currentRoundAnswers.map(a => {
+              currentRoundAnswers.map((a, i) => {
                 return (
-                <li key={a.user.uid}>{a.user.name} answered {a.answer}</li>
+                <li key={`${a.user.uid}${i}`}>{a.user.name} answered {a.answer}</li>
                 )
               })
             }

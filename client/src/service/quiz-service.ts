@@ -52,6 +52,7 @@ class QuizService {
   async createUser(email: string, password: string) {
     try {
       const data = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      console.log(email, password, data)
       const user = this.addUserToDatabase(data);
       return user;
     } catch (error) {
@@ -90,11 +91,11 @@ class QuizService {
       .catch(error => console.error(error))
   }
 
-  getQuizDetails(id) {
+  getQuizDetails(id: string) {
     return axios.get('/getquzidetails/' + id).then((response) => response.data)
   }
 
-  updateQuiz(newQuestions, quizId) {
+  updateQuiz(newQuestions: any, quizId: string) {
     return axios.put('/updateQuiz/' + quizId, newQuestions)
       .then((response) => response.data)
       .catch(error => console.error(error))
@@ -102,16 +103,14 @@ class QuizService {
 
   }
 
-  deleteQuiz(quizId) {
+  deleteQuiz(quizId: string) {
     console.log("deleteQuiz " + quizId)
     return axios.delete('/deleteQuiz/' + quizId)
       .then((response) => response.data)
       .catch(error => console.error(error))
-
-
   }
 
-  deleteQuizInUsers(userId, quizObject) {
+  deleteQuizInUsers(userId: string, quizObject: any) {
     console.log("deleteQuizInUsers " + userId + " obj: " + quizObject)
     return axios.delete('/deleteQuizInUsers/' + userId, { data: quizObject })
       .then((response) => response.data)
