@@ -1,10 +1,11 @@
 import { isInaccessible } from '@testing-library/react';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import quizService from '../service/quiz-service';
 import './CreateQuiz.scss';
-import firebase from 'firebase'
+import firebase from 'firebase';
 import { useHistory } from 'react-router-dom';
+import { stringify } from 'querystring';
 
 
 
@@ -28,10 +29,12 @@ function CreateQuiz() {
   };
 
 
-  const user = useAuth();
+  const user: firebase.User | null = useAuth();
 
 
-  const [title: string, setTitle] = useState("");
+
+
+  const [title, setTitle] = useState<string>("");
   function changeTitle(e) {
     const newTitle: string = e.target.value;
     setTitle(newTitle);
@@ -39,7 +42,7 @@ function CreateQuiz() {
   };
 
 
-  const [categories: object, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   function getCategories() {
     quizService
       .getQuestionsCategories()
@@ -53,7 +56,7 @@ function CreateQuiz() {
   }, [setCategories])
 
 
-  const [selectedCategory: string, setSelectedCategory] = useState("1");
+  const [selectedCategory, setSelectedCategory] = useState<string>("1");
   function getSelectedCategory(e) {
     const newSelected = e.target.value;
     setSelectedCategory(newSelected)
@@ -61,7 +64,7 @@ function CreateQuiz() {
 
 
 
-  const [question: string, setQuestion] = useState("");
+  const [question, setQuestion] = useState<string>("");
   function handleQuestionChange(e) {
 
     const newQuestion: string = e.target.value;
@@ -69,16 +72,22 @@ function CreateQuiz() {
 
   };
 
+  interface Options {
+    option1: string;
+    option2: string;
+    option3: string;
+    option4: string;
+  }
 
 
-  const initialOptionsState = {
+  const initialOptionsState: Options = {
     option1: "",
     option2: "",
     option3: "",
     option4: ""
 
   }
-  const [optionsCollection, setOptions] = useState(initialOptionsState);
+  const [optionsCollection, setOptions] = useState<Options>(initialOptionsState);
   function handleOptionsChange(e) {
     const newValue = e.target.value;
     const inputName = e.target.name;
@@ -95,21 +104,26 @@ function CreateQuiz() {
   };
 
 
-  const [answer, SetAnswer] = useState();
+  const [answer, SetAnswer] = useState<string | null>();
   function handleChange(e) {
     const newAnswer = e.target.value;
     SetAnswer(newAnswer)
   }
 
+  interface Prevalue {
+    question: string;
+    options: Options;
+    answer: string | null;
+  }
 
   let questionId = 1
-  const [questionsCollection, setQuestionsCollection] = useState([])
+  const [questionsCollection, setQuestionsCollection] = useState<[{ question: string, options: {}, answer: string }]>([])
   const [buttonClickState, setButton] = useState(false)
   function buttonHandel() {
 
     questionId = questionId + 1
 
-    setQuestionsCollection((prev) => [
+    setQuestionsCollection((prev: Prevalue) => [
       ...prev, {
         question: question,
         options: optionsCollection,
@@ -150,19 +164,12 @@ function CreateQuiz() {
                 <br />
 
               </div>)
-
-
             }
-
-
 
           </ul>
         </div>
       );
     } else return <div></div>;
-
-
-
   }
 
 
@@ -188,14 +195,6 @@ function CreateQuiz() {
     setTitle("")
 
   }
-
-
-  console.log(selectedCategory)
-
-
-
-
-
 
 
   return (

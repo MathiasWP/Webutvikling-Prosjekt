@@ -88,24 +88,7 @@ function UserProfile() {
         }
     }, [state])
 
-    function updateQuiz() {
 
-        const quizId = props.match.params.id
-
-        const newQuestions = questions
-
-        quizService
-            .updateQuiz(newQuestions, quizId)
-            .then(response => {
-                history.push("/user/update/success");
-
-
-            })
-            .catch((error: Error) => console.log('Error ' + error.message));
-
-
-
-    }
 
     function deleteQuizInBoth(quizObject) {
 

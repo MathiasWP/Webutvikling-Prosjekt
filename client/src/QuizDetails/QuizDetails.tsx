@@ -7,13 +7,13 @@ import { useHistory } from 'react-router-dom';
 
 
 
-function QuizDetails(props) {
+function QuizDetails(props: any) {
 
     const history = useHistory();
 
 
 
-    const [questions, setQuestions] = useState([{ question: "", options: {}, answer: "" }])
+    const [questions, setQuestions] = useState<{ question: string, options: {}, answer: string }[]>([{ question: "", options: {}, answer: "" }])
 
     const quizId = props.match.params.id
 
@@ -30,21 +30,21 @@ function QuizDetails(props) {
     }, [setQuestions]);
 
 
-    function updateSingleQuestion(index, e) {
-        console.log("index: " + index + " event " + e.target.value)
+    function updateSingleQuestion(index: number, e) {
+
         setQuestions(prevState => (prevState.map(
             (el, idx) => idx === index ? { ...el, question: e.target.value } : el
         )))
     }
-    function updateSingleAnswer(index, e) {
-        console.log("index: " + index + " event " + e.target.value)
+    function updateSingleAnswer(index: number, e) {
+
         setQuestions(prevState => (prevState.map(
             (el, idx) => idx === index ? { ...el, answer: e.target.value } : el
         )))
     }
 
-    function updateSingleOption(index, key, e) {
-        console.log("index: " + index + " key " + " event " + e.target.value)
+    function updateSingleOption(index: number, key: string, e) {
+
         setQuestions(prevState => (prevState.map(
             (el, idx) => idx === index ? { ...el, options: { ...el.options, [key]: e.target.value } } : el
         )))
