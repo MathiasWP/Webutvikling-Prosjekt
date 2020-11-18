@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 
 function UserProfile() {
     const history = useHistory();
-    const { state } = useContext(store);
+    const { state, dispatch } = useContext(store);
 
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
@@ -117,8 +117,12 @@ function UserProfile() {
             .then(() => quizService.deleteQuiz(quizId))
             .then(response => {
                 console.log("success delete")
-
-
+                dispatch({
+                    type: 'REMOVE QUIZ', 
+                    payload: {
+                      id: quizId
+                    }
+                  })
             })
 
             .catch((error: Error) => console.log('Error ' + error.message));

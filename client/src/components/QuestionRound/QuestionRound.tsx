@@ -5,7 +5,6 @@ import Button from '../Button/Button'
 type QuestionRoundProps = {allQuestions: Record<string, unknown>, disabledAnswers: boolean, round: number, onAnswer: void, onChangeRound: void, isQuizMaster: boolean}; // This any is not correct
 
 function QuestionRound({allQuestions, disabledAnswers, round, onAnswer, onChangeRound, isQuizMaster}:QuestionRoundProps) {
-  console.log(disabledAnswers)
   return (
     <div>
       <h1>Round {round+1}</h1>

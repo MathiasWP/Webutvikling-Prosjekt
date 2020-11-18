@@ -2,15 +2,48 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  border-radius: 12px;
+  color: rgb(31, 31, 31);
+  background-color: white;
+  margin-top: 2rem;
 }
 
-td, th {
-  border: 1px solid #dddddd;
+td,
+th {
   text-align: left;
   padding: 8px;
+  padding: 2rem;
+}
+
+tr:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.join {
+  background-color: white;
+  padding: 1rem 1rem;
+  text-decoration: none;
+  color: rgb(31, 31, 31);
+  border: 2px solid rgb(31, 31, 31);
+  cursor: pointer;
+  transition: all 200ms;
+  border-radius: 5px;
+}
+
+.join:hover {
+  color: white;
+  background-color: rgb(31, 31, 31);
 }
 
 .activerooms {
-    font-size: 16px;
+  font-size: 16px;
+}
 
+.green {
+  color: rgb(5, 150, 5);
+  font-weight: bold;
+}
+
+.red {
+  color: red;
 }

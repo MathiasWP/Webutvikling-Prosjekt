@@ -6,8 +6,37 @@
   display: grid;
   justify-items: center;
   align-content: center;
-
   padding: 10px;
+}
+
+.mainForm {
+  width: 80%;
+  min-width: 30rem;
+  max-width: 60rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 3rem;
+
+  fieldset {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+  }
+}
+
+.optionInput {
+  display: flex;
+  align-items: center;
+
+  input {
+    flex: 1;
+    cursor: pointer;
+  }
 }
 
 .SubmitSuccess {
@@ -104,4 +133,24 @@ select {
 .showingQuiz {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.addedQuestions {
+  width: 80%;
+  min-width: 30rem;
+  max-width: 60rem;
+  height: 20rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 3rem;
+  overflow: auto;
+  font-size: 3rem;
+  padding: 1rem;
+}
+
+.addedQuestion .option {
+  margin: 2rem;
 }

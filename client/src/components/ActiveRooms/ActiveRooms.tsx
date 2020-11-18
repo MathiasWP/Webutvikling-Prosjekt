@@ -37,9 +37,9 @@ function ActiveRooms() {
                 <tr key={room.id}>
                     <td>{room.name}</td>
                     <td>{categories[room.quiz.category].toUpperCase()}</td>
-                    <td>{room.players.length}</td>
+                    <td className={room.players.length > 0 ? 'green' : 'red'}>{room.players.length}</td>
                     <td>
-                    <Link to={`/grouproom/${room.id}`}>JOIN</Link>
+                    <Link to={`/grouproom/${room.id}`} className="join">JOIN</Link>
                     </td>
                 </tr>
               ))}

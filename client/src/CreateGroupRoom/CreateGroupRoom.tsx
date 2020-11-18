@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import ActiveRooms from '../components/ActiveRooms/ActiveRooms'
 import Button from '../components/Button/Button';
+import Select from '../components/Select/Select';
 import quizService from '../service/quiz-service'
 import { store } from '../store/store';
 import { useHistory } from 'react-router-dom';
@@ -67,15 +68,17 @@ function CreateGroupRoom() {
           <div className="quiz-create">
             <Button onClick={() => { setCreateQuiz(false) }}>Tilbake</Button>
             <h2>Velg kategori</h2>
-            <select onChange={(e) => setSelectedCategory(parseInt(e.currentTarget.value))} disabled={findingQuiz} >
+            <div className="choose">
+            <Select onChange={(e) => setSelectedCategory(parseInt(e.currentTarget.value))} disabled={findingQuiz} >
               <option value={-1}>Velg kategori</option>
               {categories &&
                 Object.entries(categories).map(([key, value]) => <option value={key} key={key}>{value}</option>)}
-            </select>
+            </Select>
+            </div>
 
             {
               quizes.length > 0 ?
-                <div>
+                <div className="quizes-found">
                   {quizes.map(quiz => {
                     return (
                       <section key={quiz.id} className="quiz-preview" onClick={() => createQuizRoom(quiz.id)}>
@@ -99,7 +102,7 @@ function CreateGroupRoom() {
               state?.user &&
               <Button onClick={() => { setCreateQuiz(true) }}>
                 Lag eget grupperom
-        </Button>
+              </Button>
             }
           </>
       }
