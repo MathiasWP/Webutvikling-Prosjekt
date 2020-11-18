@@ -24,3 +24,5 @@ yarn-error.log*
 
 public/bundle.js
 public/bundle.js.map
+public/0.bundle.js
+public/0.bundle.js.map
