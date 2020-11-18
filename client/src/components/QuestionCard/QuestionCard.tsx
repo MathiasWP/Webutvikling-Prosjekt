@@ -28,20 +28,22 @@ function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps
 
   return (
     <div>
-      <h1>{questionText}</h1>
-      <ul>
+      <h3>{questionText}</h3>
+      <div className="choices">
         {
-          Object.entries(options).map(([opt, value]) => {
+          Object.entries(options).map(([opt, value], i) => {
 
             return (
-              <li key={opt} value={opt}>
-                {value}
-                <input checked={Boolean(chosen)} disabled={disabledAnswers} onChange={handleCheck} type="radio" name="choice" value={opt} />
-              </li>
+              <span key={opt} value={opt}>
+                <span className={`option ${disabledAnswers && 'disabled'}`} >
+                <input name={'choice' + i} disabled={disabledAnswers} id={'choice' + i} onChange={handleCheck} type="radio" value={opt} />
+                <label htmlFor={'choice' + i}>{value}</label>
+                </span>
+              </span>
             )
           })
         }
-      </ul>
+      </div>
     </div>
   );
 }

@@ -27,3 +27,56 @@
     }
   }
 }
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+
+  .option {
+    margin: 3rem;
+    display: flex;
+    align-items: center;
+
+
+    label, input {
+      cursor: pointer;
+    }
+    label {
+      padding: 1rem 2rem;
+      border-radius: 5px;
+      transition: all 200ms;
+
+      &:hover {
+          background-color: #5feb6b;
+      }
+    }
+
+    
+    input {
+      display: none; 
+      width: 2rem;
+    }
+
+    input[type="radio"]:checked+label{ 
+      text-decoration: underline;
+      background-color: #5feb6b;
+     }
+
+
+
+    &:hover:not(input[type="radio"]:checked) label {
+      background-color: #5feb6b;
+    }
+  }
+}
+
+.disabled {
+  input[type="radio"]:not(:checked)+label{ 
+    cursor: not-allowed;
+    &:hover {
+      background-color: transparent;
+    }
+   }
+   
+}
