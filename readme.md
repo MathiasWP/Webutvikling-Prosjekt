@@ -9,12 +9,12 @@ Språk brukt: TypeScript
 
 ## After you have set everything up, do the following to make the tests work:
 
-### NOTE: The data in the secrets should only be a single string wrapped in quotes (see example below)
+__NOTE: The secrets must be a single string wrapped in quotes (see example below)__
 
-1. Add 3 GitHub secrets:
-    - CLIENT_CONFIG (should contain the data in: ./client/src/config/config.ts)
-    - SERVER_CONFIG (should contain the data in: ./server/keys/config.ts)
-    - SERVER_SERVICE_ACCOUNT  (should contain the data in: ./server/keys/serviceAccount.json)
+- Add 3 GitHub secrets:
+    - CLIENT_CONFIG (should contain the data in: `./client/src/config/config.ts`)
+    - SERVER_CONFIG (should contain the data in: `./server/keys/config.ts`)
+    - SERVER_SERVICE_ACCOUNT  (should contain the data in: `./server/keys/serviceAccount.json`)
 
 
 #### Example:
