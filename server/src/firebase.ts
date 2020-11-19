@@ -2,8 +2,9 @@ import firebase from 'firebase'
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import firebaseAccountCredentials from '../keys/serviceAccount.json';
-import config from '../keys/config.js'; 
-import app from './app.js'; //typescript problem, with importing .ts file, that's why this has to be js
+// @ts-ignore
+import * as config from '../keys/config'; 
+import app from './app.js'; //typescript problem, with importing .ts file, that's why this has to be js.
 
 const serviceAccount = JSON.parse(JSON.stringify(firebaseAccountCredentials)) as admin.ServiceAccount
 
