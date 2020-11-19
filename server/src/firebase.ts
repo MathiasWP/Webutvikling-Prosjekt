@@ -4,9 +4,10 @@ import * as admin from 'firebase-admin'
 import firebaseAccountCredentials from '../keys/serviceAccount.json';
 // @ts-ignore
 import { config } from '../keys/config.ts'
+// @ts-ignore
+import app from './app.ts'
 
 const serviceAccount = JSON.parse(JSON.stringify(firebaseAccountCredentials)) as admin.ServiceAccount
-import app from './app'
 
 
 admin.initializeApp({
