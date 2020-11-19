@@ -2,9 +2,12 @@ import firebase from 'firebase'
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
 import firebaseAccountCredentials from '../keys/serviceAccount.json';
-import { config } from '../keys/config'
-const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
-import app from './app'
+// @ts-ignore
+import { config } from '../keys/config.ts'
+// @ts-ignore
+import app from './app.ts'
+
+const serviceAccount = JSON.parse(JSON.stringify(firebaseAccountCredentials)) as admin.ServiceAccount
 
 
 admin.initializeApp({

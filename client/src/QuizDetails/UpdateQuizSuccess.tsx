@@ -16,7 +16,7 @@ function UpdateQuizSuccess() {
     return (
         <div className="UpdateSucces">
 
-            <h1>SUCCESS!</h1>
+            <h1>Your quiz is updated!</h1>
 
         </div>
     )

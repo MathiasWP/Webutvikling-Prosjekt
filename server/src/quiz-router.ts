@@ -23,6 +23,7 @@ router.post('/adduser', async (request, response) => {
     const { user: { user }, token } = body.data;
 
     try {
+        console.log(user)
         const data = await quizService.addUser(user, token);
         return response.send(data);
     } catch (error) {
