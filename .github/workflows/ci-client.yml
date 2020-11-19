@@ -24,7 +24,7 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@master
-       with:
+        with:
             ref: ${{ github.ref }}
             
       - name: Setup node env 🏗
