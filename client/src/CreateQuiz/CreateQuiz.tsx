@@ -14,21 +14,21 @@ import Select from '../components/Select/Select'
 function CreateQuiz() {
   const history = useHistory();
   const { state, dispatch } = useContext(store);
-  const [title: string, setTitle] = useState("");
-  const [categories: object, setCategories] = useState([]);
-  const [question: string, setQuestion] = useState("");
-  const [answer, SetAnswer] = useState();
+  const [title, setTitle] = useState<string>("");
+  const [categories, setCategories] = useState<object>([]);
+  const [question, setQuestion] = useState<string>("");
+  const [answer, SetAnswer] = useState<string | null>();
   const [checked, setChecked] = useState();
   const [questionsCollection, setQuestionsCollection] = useState([])
-  const [buttonClickState, setButton] = useState(false)
+  const [buttonClickState, setButton] = useState<boolean>(false)
   const initialOptionsState = {
     option1: "",
     option2: "",
     option3: "",
     option4: ""
   }
-  const [optionsCollection, setOptions] = useState(initialOptionsState);
-  const [selectedCategory: string, setSelectedCategory] = useState("1");
+  const [optionsCollection, setOptions] = useState<object>(initialOptionsState);
+  const [selectedCategory, setSelectedCategory] = useState<string>("1");
   let questionId = 1
 
   const useAuth = () => {
@@ -78,7 +78,7 @@ function CreateQuiz() {
     setQuestion(newQuestion);
   };
 
-  
+
   function handleOptionsChange(e) {
     const newValue = e.currentTarget.value;
     const inputName = e.currentTarget.name;
@@ -188,13 +188,13 @@ function CreateQuiz() {
                   {
                     Object.entries(optionsCollection).map(([key, value], i) => {
                       return (
-                          <span key={key} className="optionInput">
-                             <Input name={`option${i+1}`} type="text" value={value} onChange={handleOptionsChange} />
-                              <input className="radio" type="radio" name={`answer${i+1}`} value={value} checked={answer == value && checked ===`answer${i+1}`} onChange={handleChange} />
-                          </span>
+                        <span key={key} className="optionInput">
+                          <Input name={`option${i + 1}`} type="text" value={value} onChange={handleOptionsChange} />
+                          <input className="radio" type="radio" name={`answer${i + 1}`} value={value} checked={answer == value && checked === `answer${i + 1}`} onChange={handleChange} />
+                        </span>
                       )
                     })
-                  }    
+                  }
                 </label>
                 <br />
                 <Button type="success" onClick={buttonHandel} disabled={Object.values(optionsCollection).some(o => o.trim().length === 0) || !answer}>Add question</Button>
@@ -205,13 +205,13 @@ function CreateQuiz() {
 
             <div className="addedQuestions">
               <h3>You are adding the following:</h3>
-            {checkButton()}
+              {checkButton()}
             </div>
 
             <div className="create-quiz">
-                <h4>Name of quiz: {title}</h4>
-                <h4>Amount of questions: {questionsCollection.length}</h4>
-                <Button onClick={ handleSubmit} disabled={questionsCollection.length < 1 || !title}>
+              <h4>Name of quiz: {title}</h4>
+              <h4>Amount of questions: {questionsCollection.length}</h4>
+              <Button onClick={handleSubmit} disabled={questionsCollection.length < 1 || !title}>
                 Create quiz
                 </Button>
             </div>
