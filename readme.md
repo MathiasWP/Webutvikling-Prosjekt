@@ -12,9 +12,9 @@ Språk brukt: TypeScript
 __NOTE: The secrets must be a single string wrapped in quotes (see example below)__
 
 - Add 3 GitHub secrets:
-    - CLIENT_CONFIG (should contain the data in: `./client/src/config/config.ts`)
-    - SERVER_CONFIG (should contain the data in: `./server/keys/config.ts`)
-    - SERVER_SERVICE_ACCOUNT  (should contain the data in: `./server/keys/serviceAccount.json`)
+    - CLIENT_CONFIG (should contain the data in: `./client/src/config/config.TS`)
+    - SERVER_CONFIG (should contain the data in: `./server/keys/config.JS`)
+    - SERVER_SERVICE_ACCOUNT  (should contain the data in: `./server/keys/serviceAccount.JSON`)
 
 
 #### Example:
