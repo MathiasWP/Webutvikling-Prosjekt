@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useMemo, useState, useContext } from 'react';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import quizService from '../service/quiz-service';
 import Loading from '../components/Loading/Loading';
 import QuestionRound from '../components/QuestionRound/QuestionRound';
 import WaitingRoom from '../components/WaitingRoom/WaitingRoom';
 import socketService from '../service/socket-service';
-import {store} from '../store/store'
+import { store } from '../store/store'
 import './GroupRoom.scss';
 const { v4: uuidv4 } = require('uuid');
 
@@ -27,61 +27,61 @@ function GroupRoom() {
   const roomId = location.pathname.split('/').pop(); // For some reason the param/key object is weird, so we have to extract it the rough way  
 
   useEffect(() => {
-      const fetchData = async () => {
-          const result = await quizService.getRoom(roomId);
-          setQuizRoom(result);
-          setPlayers(result.players)
-      };
+    const fetchData = async () => {
+      const result = await quizService.getRoom(roomId);
+      setQuizRoom(result);
+      setPlayers(result.players)
+    };
 
-      if(state?.user === null) {
-        /**
-         * User that joined doesn't have a userprofile.
-         * Considering that we have to choies:
-         * 1. Create a user with random data and add information in their cookie
-         * 2. See if the user already has the cookie, and if yes, use that information
-         */
-        if(document.cookie.includes("uid")) {
-            const cookieArr = document.cookie.split(';').map(i => i.trim().split('='))
-            currentPlayer.current = {
-              name: cookieArr[1][1],
-              uid: cookieArr[0][1]
-            }
-        } else {
-          currentPlayer.current = {
-            name: `Bobby ${Math.random()}`,
-            uid: uuidv4()
-          }
-         document.cookie = `uid=${currentPlayer.current.uid};`;
-         document.cookie = `name=${currentPlayer.current.name};`;
+    if (state?.user === null) {
+      /**
+       * User that joined doesn't have a userprofile.
+       * Considering that we have to choies:
+       * 1. Create a user with random data and add information in their cookie
+       * 2. See if the user already has the cookie, and if yes, use that information
+       */
+      if (document.cookie.includes("uid")) {
+        const cookieArr = document.cookie.split(';').map(i => i.trim().split('='))
+        currentPlayer.current = {
+          name: cookieArr[1][1],
+          uid: cookieArr[0][1]
         }
       } else {
-        /**
-         * User has a profile, so just use that one
-         */
         currentPlayer.current = {
-          name: state.user.name,
-          uid: state.auth.uid
+          name: `Bobby ${Math.random()}`,
+          uid: uuidv4()
         }
+        document.cookie = `uid=${currentPlayer.current.uid};`;
+        document.cookie = `name=${currentPlayer.current.name};`;
       }
-      fetchData();
-    }, []);
-    
+    } else {
+      /**
+       * User has a profile, so just use that one
+       */
+      currentPlayer.current = {
+        name: state.user.name,
+        uid: state.auth.uid
+      }
+    }
+    fetchData();
+  }, []);
 
-    // This may be an extra step to take (this could just be checked in the isReady useEffect below)
-    // but it's just for having a little more control over the state-cycles 
-    useEffect(() => {
-      if(quizRoom && currentPlayer.current.uid !== undefined) {        
-        setIsReady(true);
-      }
-    }, [quizRoom, currentPlayer])
+
+  // This may be an extra step to take (this could just be checked in the isReady useEffect below)
+  // but it's just for having a little more control over the state-cycles 
+  useEffect(() => {
+    if (quizRoom && currentPlayer.current.uid !== undefined) {
+      setIsReady(true);
+    }
+  }, [quizRoom, currentPlayer])
 
 
   useEffect(() => {
-     if(!alreadyInitRoom.current && isReady) {
-       alreadyInitRoom.current = true;
-       /**
-        * Find out if the current user is the quiz-master or not
-        */
+    if (!alreadyInitRoom.current && isReady) {
+      alreadyInitRoom.current = true;
+      /**
+       * Find out if the current user is the quiz-master or not
+       */
       const isMaster = state?.auth?.uid === quizRoom.quiz_master;
       setIsQuizMaster(isMaster);
 
@@ -93,7 +93,7 @@ function GroupRoom() {
 
       // Called when the subscription is ready
       subscriptionRef.current.onopen = () => {
-        if(!quizRoom.players.find(p => p.uid === currentPlayer.current.uid) && currentPlayer.current.uid !== quizRoom.quiz_master) {
+        if (!quizRoom.players.find(p => p.uid === currentPlayer.current.uid) && currentPlayer.current.uid !== quizRoom.quiz_master) {
           socketService.send(
             {
               type: "ADD_PLAYER_ADMIN",
@@ -117,60 +117,62 @@ function GroupRoom() {
          * Socket messages that are exclusive to the quiz-master
          * Mostly for doing admin stuff like altering the firestore.
          */
-        if(isMaster) {
-          if(message.type === 'ADD_PLAYER_ADMIN' && !players.find(p => p.uid === message.data.uid)) {
+        if (isMaster) {
+          if (message.type === 'ADD_PLAYER_ADMIN' && !players.find(p => p.uid === message.data.uid)) {
             // Only the quiz-master should add the user to the backend aswell
-                quizService.addUserToQuizRoom(message.data, roomId)
-                .then((data) => {socketService.send({
+            quizService.addUserToQuizRoom(message.data, roomId)
+              .then((data) => {
+                socketService.send({
                   type: "ADD_PLAYER",
                   data
                 })
               })
-            }
+          }
 
 
-          if(message.type === 'PLAYER_REJOINED') {
+          if (message.type === 'PLAYER_REJOINED') {
             // If a player rejoined (for example refreshed their page) and have already given answers then the quiz-master disables her radio-buttons
-            if(roundAnswers.current.find(a => a.user.uid === message.data.uid)) {
+            if (roundAnswers.current.find(a => a.user.uid === message.data.uid)) {
               socketService.send({
-                    type: "DISABLE_PLAYER_OPTIONS",
-                    uid: message.data.uid
-                  });
-              }
+                type: "DISABLE_PLAYER_OPTIONS",
+                uid: message.data.uid
+              });
             }
+          }
 
-          if(message.type === 'REMOVE_PLAYER_ADMIN') {
+          if (message.type === 'REMOVE_PLAYER_ADMIN') {
             // Only the quiz-master should remove the user to the backend aswell
-                quizService.removeUserFromQuizRoom(message.data, roomId)
-                .then((data) => {socketService.send({
+            quizService.removeUserFromQuizRoom(message.data, roomId)
+              .then((data) => {
+                socketService.send({
                   type: "REMOVE_PLAYER",
                   data
                 })
-              })  
-            }
+              })
+          }
 
-            if(message.type === 'ANSWERED_QUESTION') {
-              if(!message.data.answer) {
-                return;
-              }
-              setCurrentRoundAnswers(a => [...a, message.data])
+          if (message.type === 'ANSWERED_QUESTION') {
+            if (!message.data.answer) {
+              return;
             }
+            setCurrentRoundAnswers(a => [...a, message.data])
+          }
         }
-        
+
 
         /**
          * Normal socket-messages that all players can recieve (mostly for updating the UI)
          * and going to the next quiz-room
          */
-        if(message.type === "ADD_PLAYER") {
+        if (message.type === "ADD_PLAYER") {
           setPlayers(players => [...players, message.data])
         }
-        if(message.type === "REMOVE_PLAYER") {
+        if (message.type === "REMOVE_PLAYER") {
           setPlayers(players => players.filter(p => p.uid !== message.data.uid));
         }
-        if(message.type === "QUIZ_ROOM") {
+        if (message.type === "QUIZ_ROOM") {
 
-          if(message.room.finished) {
+          if (message.room.finished) {
             //alert("DONE")
           }
           console.log('CHANGED ROOM')
@@ -178,12 +180,12 @@ function GroupRoom() {
           setQuizRoom(message.room)
         }
 
-        if(message.type === 'DISABLE_PLAYER_OPTIONS' && message.uid === currentPlayer.current.uid) {
+        if (message.type === 'DISABLE_PLAYER_OPTIONS' && message.uid === currentPlayer.current.uid) {
           console.log('hello')
           setDisabledAnswers(true);
         }
 
-        if(message.type === "QUIZ_OVER") {
+        if (message.type === "QUIZ_OVER") {
           //alert('Quiz is over, the quiz-master left')
           //history.push('/')
         }
@@ -209,7 +211,7 @@ function GroupRoom() {
        * (but not in cookies), so wanna decide what to do.
        */
       const userLeaving = () => {
-        if(isMaster) {
+        if (isMaster) {
           socketService.send({
             type: "QUIZ_OVER"
           });
@@ -223,15 +225,15 @@ function GroupRoom() {
       /**
        * IF A PLAYER LEAVES (BOTH EXITING TAB OR GOING SOMEWHERE ELSE)
        */
-        window.addEventListener('beforeunload', () => {
-         // document.cookie = '';
-        });
+      window.addEventListener('beforeunload', () => {
+        // document.cookie = '';
+      });
 
-        return function cleanup() {
-            userLeaving()
-        }
-  }
-  
+      return function cleanup() {
+        userLeaving()
+      }
+    }
+
   }, [isReady])
 
 
@@ -244,13 +246,13 @@ function GroupRoom() {
    */
   function beginQuiz() {
     quizService.beginQuizRoom(roomId)
-    .then((data) => {
-      setQuizRoom(data)
-      socketService.send({
-        type: "QUIZ_ROOM",
-        room: data
+      .then((data) => {
+        setQuizRoom(data)
+        socketService.send({
+          type: "QUIZ_ROOM",
+          room: data
+        })
       })
-    })
   }
 
   /***
@@ -275,14 +277,14 @@ function GroupRoom() {
    */
   function changeRound() {
     quizService.changeQuizRoomRound(roomId)
-    .then((data) => {
-      //console.log(data)
-      setQuizRoom(data)
-      socketService.send({
-        type: "QUIZ_ROOM",
-        room: data
+      .then((data) => {
+        //console.log(data)
+        setQuizRoom(data)
+        socketService.send({
+          type: "QUIZ_ROOM",
+          room: data
+        })
       })
-    })
   }
 
 
@@ -290,15 +292,15 @@ function GroupRoom() {
     <div className="GroupRoom">
       {
         quizRoom ?
-        quizRoom.finished ?
-        <h2>Spillet er over!</h2>
-        :
-          quizRoom?.round >= 0 ?
-            <QuestionRound disabledAnswers={disabledAnswers} isQuizMaster={isQuizMaster} onChangeRound={changeRound} allQuestions={quizRoom.quiz.questions} round={quizRoom.round} onAnswer={answerQuestion} />
+          quizRoom.finished ?
+            <h2>Spillet er over!</h2>
             :
-             <WaitingRoom players={players} quizRoom={quizRoom} onBegin={beginQuiz}/>
+            quizRoom?.round >= 0 ?
+              <QuestionRound disabledAnswers={disabledAnswers} isQuizMaster={isQuizMaster} onChangeRound={changeRound} allQuestions={quizRoom.quiz.questions} round={quizRoom.round} onAnswer={answerQuestion} />
+              :
+              <WaitingRoom players={players} quizRoom={quizRoom} onBegin={beginQuiz} />
           :
-        <Loading label="Snart klar til å spille?" />
+          <Loading label="Snart klar til å spille?" />
       }
       {
         isQuizMaster &&
@@ -308,7 +310,7 @@ function GroupRoom() {
             {
               currentRoundAnswers.map((a, i) => {
                 return (
-                <li key={`${a.user.uid}${i}`}>{a.user.name} answered {a.answer}</li>
+                  <li key={`${a.user.uid}${i}`}>{a.user.name} answered {a.answer}</li>
                 )
               })
             }

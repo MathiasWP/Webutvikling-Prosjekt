@@ -57,7 +57,6 @@ function QuizDetails(props: any) {
         const quizId = props.match.params.id
 
         const newQuestions = questions
-
         quizService
             .updateQuiz(newQuestions, quizId)
             .then(response => {
@@ -80,7 +79,7 @@ function QuizDetails(props: any) {
 
             <div>
                 {questions.map((item, index) =>
-                    <div>
+                    <div key={index}>
                         <p className="row">Question:<input className="questionInput" value={item.question} onChange={(e) => updateSingleQuestion(index, e)} /></p>
                         <br></br>
 
