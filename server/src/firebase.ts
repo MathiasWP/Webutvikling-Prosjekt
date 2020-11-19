@@ -4,7 +4,7 @@ import * as admin from 'firebase-admin'
 import firebaseAccountCredentials from '../keys/serviceAccount.json';
 // @ts-ignore
 import * as config from '../keys/config'; 
-import app from './app.js'; //typescript problem, with importing .ts file, that's why this has to be js.
+import * as app from './app.js'; //typescript problem, with importing .ts file, that's why this has to be js.
 
 const serviceAccount = JSON.parse(JSON.stringify(firebaseAccountCredentials)) as admin.ServiceAccount
 
