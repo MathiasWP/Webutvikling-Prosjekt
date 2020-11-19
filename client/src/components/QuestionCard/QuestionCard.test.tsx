@@ -24,6 +24,7 @@ describe('QuestionCard', () => {
 
     it('Draw correctly', () => {
 
+        console.log(container.debug())
         expect(container.containsMatchingElement(<h3>b</h3>))
         expect(
             container.containsMatchingElement(<input name="choice0" disabled={false} id="choice0" type="radio" value="option1" />)
