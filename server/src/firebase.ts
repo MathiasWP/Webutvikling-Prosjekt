@@ -5,7 +5,7 @@ import firebaseAccountCredentials from '../keys/serviceAccount.json';
 // @ts-ignore
 import { config } from '../keys/config.ts'
 
-const serviceAccount = firebaseAccountCredentials as admin.ServiceAccount
+const serviceAccount = JSON.parse(JSON.stringify(firebaseAccountCredentials)) as admin.ServiceAccount
 import app from './app'
 
 
