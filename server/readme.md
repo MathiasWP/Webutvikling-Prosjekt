@@ -16,3 +16,13 @@
 ## Starting server
 
 Run `npm start`
+
+## Setting up server side tests
+
+You need to setup 3 things in order for tests to work.
+
+1. UID of a user from firebase authentication.
+2. ID of a quiz made for testing (create one using the website GUI)
+3. ID of a group room for testing (create one using the website GUI)
+
+Just edit the variables in src/quiz-service.test.ts

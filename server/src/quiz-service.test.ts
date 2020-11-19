@@ -1,13 +1,18 @@
 import quizService from "./quiz-service";
 import * as config from "../keys/config.js";
 import axios from "axios";
-
 var admin = require("firebase-admin");
+
+// enter the UID of a firebase authentication user
 let uid = "l6DDbz2LSjcqzYrVRPeCd9YhNNG2";
+// enter the ID of a quiz used to testing.
+let testQuizId = "1gMHov7NY8UN9fpr9Pc4";
+// enter ID of a room used for testing
+let testRoomId = "0uSjfDZf4O2azXUYlaGM";
+
 let userToken = "";
 let apiKey = config.apiKey;
-// userToken.i for test@test.test
-//const userToken = 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjNlNTQyN2NkMzUxMDhiNDc2NjUyMDhlYTA0YjhjYTZjODZkMDljOTMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vd2VidXR2aWtsaW5nLW50bnUtcXVpeiIsImF1ZCI6IndlYnV0dmlrbGluZy1udG51LXF1aXoiLCJhdXRoX3RpbWUiOjE2MDU3MDkyNDksInVzZXJfaWQiOiJsNkREYnoyTFNqY3F6WXJWUlBlQ2Q5WWhOTkcyIiwic3ViIjoibDZERGJ6MkxTamNxellyVlJQZUNkOVloTk5HMiIsImlhdCI6MTYwNTcwOTI0OSwiZXhwIjoxNjA1NzEyODQ5LCJlbWFpbCI6InRlc3RAdGVzdC50ZXN0IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInRlc3RAdGVzdC50ZXN0Il19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.MjDPPQ-zV0YFyVCOWxvF48Fak6clK7H-fuTFW9CcYdFMKmcvDFvuPHB-yRvvVCMsEF3wF_RAI9sx6WE3SpjzoTpWzCU6YMATvbY6_HivLF4Fs1sOjJwey6gPEks03qNPeKhFg3d4gClqHvlfm2ggszy8gaXqGPMcYYlNpUpyCfhR19uJUHvcmlA7NC0MlAY50ZrMjCIj-B_2IyZ6y5oc8j8-698FXiw7n0_uCen8nu-wDcnJB46QsszmbDKTGtEf4Fw1nPR9ELZbcFjjVe-1NZ5w5ynvaZyKvPkJNApU5LDk7eLily_nyc61ThSjh5sG_O3njlKK9koI3kvWlw0K7A'
+
 describe("category tests", () => {
   test("check if getCategories returns all categories", async () => {
     const testData = {
@@ -59,13 +64,10 @@ describe("user tests", () => {
   test.skip("update user with new quiz", async () => {
     const testQuiz = {
       name: "testquiz",
-      creator: "mOCOiyJFvPU9ojL2O1kHmjT39Y92",
+      creator: "randomid123",
     };
 
-    const data = await quizService.updateUserWithNewQuiz(
-      "mOCOiyJFvPU9ojL2O1kHmjT39Y92",
-      testQuiz
-    );
+    const data = await quizService.updateUserWithNewQuiz(uid, testQuiz);
     console.log(data);
   });
 
@@ -74,8 +76,6 @@ describe("user tests", () => {
     const data = await quizService.changeUserName("test", {
       i: userToken,
     });
-    //expect(data).toEqual("123");
-    //expect(console.log).toHaveBeenCalledWith("Successful name change");
     expect(spy).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith("Successful name change");
   });
@@ -83,7 +83,7 @@ describe("user tests", () => {
 
 describe("quiz tests", () => {
   test("get quiz details", async () => {
-    const data = await quizService.getQuizById("1gMHov7NY8UN9fpr9Pc4");
+    const data = await quizService.getQuizById(testQuizId);
     expect(Object.keys(data).length).toBeGreaterThan(0);
   });
 
@@ -93,12 +93,9 @@ describe("quiz tests", () => {
       answer: 2,
       options: [{ option1: 1, option2: 2, option3: 3, option4: 4 }],
     };
-    const data = await quizService.updateQuiz(
-      newQuestion,
-      "1tlbot3Atdasgc5TSFsG"
-    );
+    const data = await quizService.updateQuiz(newQuestion, testQuizId);
 
-    const modifiedQuiz = await quizService.getQuizById("1tlbot3Atdasgc5TSFsG");
+    const modifiedQuiz = await quizService.getQuizById(testQuizId);
     expect(modifiedQuiz.questions.question).toEqual("Hva er 1+1?");
   });
 });
@@ -110,7 +107,7 @@ describe("room tests", () => {
   });
 
   test("get room", async () => {
-    const data = await quizService.getRoom("vw3l3lOqWyNIMQ6wREHz");
+    const data = await quizService.getRoom(testRoomId);
     expect(Object.keys(data).length).toBeGreaterThan(0);
   });
 
@@ -122,17 +119,14 @@ describe("room tests", () => {
   });
 
   test("begin quiz round", async () => {
-    const data = await quizService.beginQuizRoom(
-      { i: userToken },
-      "0uSjfDZf4O2azXUYlaGM"
-    );
+    const data = await quizService.beginQuizRoom({ i: userToken }, testRoomId);
     expect(data.inProgress).toBeTruthy();
   });
 
   test("change quiz room round", async () => {
     const data = await quizService.changeQuizRoomRound(
       { i: userToken },
-      "0uSjfDZf4O2azXUYlaGM"
+      testRoomId
     );
     expect(data.round).toBeGreaterThan(0);
   });
