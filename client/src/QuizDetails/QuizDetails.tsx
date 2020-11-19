@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import firebase from 'firebase'
 import './QuizDetails.scss';
 import { useHistory } from 'react-router-dom';
+import Select from '../components/Select/Select'
 
 
 
@@ -14,6 +15,16 @@ function QuizDetails(props: any) {
 
 
     const [questions, setQuestions] = useState<{ question: string, options: {}, answer: string }[]>([{ question: "", options: {}, answer: "" }])
+
+    const [selectedAnswer, setSeletedAnswer] = useState()
+
+    function getSelectedAnswer(e) {
+        const newSelected = e.target.value;
+        setSelectedAnswer(newSelected)
+    }
+
+
+
 
     const quizId = props.match.params.id
 
@@ -69,7 +80,7 @@ function QuizDetails(props: any) {
 
 
     }
-
+    //<p className="row">Answers:<input value={item.answer} onChange={(e) => updateSingleAnswer(index, e)} /></p>
 
 
 
@@ -86,14 +97,21 @@ function QuizDetails(props: any) {
                         <p className="row">Options: {Object.entries(item.options).map(([key, value]) => <input value={value} onChange={(e) => updateSingleOption(index, key, e)} />)}</p>
                         <br></br>
 
-                        <p className="row">Answers:<input value={item.answer} onChange={(e) => updateSingleAnswer(index, e)} /></p>
+                        <p className="row">Select the right answer: <Select value={selectedAnswer} onChange={(e) => updateSingleOption(index, key, e)}>
+                            {Object.entries(item.options).map(([key, value]) => <option value={value}>{value}</option>)}
+                        </Select></p>
+
+
                         <br></br>
 
-                    </div>)}
+
+
+                    </div>)
+                }
 
 
 
-            </div>
+            </div >
 
             <button onClick={updateQuiz}>Update your quiz</button>
 
