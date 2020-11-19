@@ -6,7 +6,7 @@ type QuestionRoundProps = { allQuestions: Record<string, unknown>, disabledAnswe
 
 function QuestionRound({ allQuestions, disabledAnswers, round, onAnswer, onChangeRound, isQuizMaster }: QuestionRoundProps) {
   return (
-    <div>
+    <div className="round">
       <h1>Round {round + 1}</h1>
       {
         isQuizMaster ?
