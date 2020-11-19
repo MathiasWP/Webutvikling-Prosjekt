@@ -26,10 +26,10 @@ describe('QuestionCard', () => {
 
         expect(container.containsMatchingElement(<h3>b</h3>))
         expect(
-            container.containsMatchingElement(<span value={"option1"}>
-                <span className="option false">
-                    <input name="choice0" disabled={false} id="choice0" type="radio" value="1" />
-                    <label htmlFor="choice0">1 </label>
+            container.containsMatchingElement(<span value="option1">
+                <span className="option ">
+                    <input name="choice0" checked={false} disabled={false} id="choice0" type="radio" value="1" />
+                    <label htmlFor="choice0">1</label>
                 </span></span>)
         ).toEqual(true);
     });
