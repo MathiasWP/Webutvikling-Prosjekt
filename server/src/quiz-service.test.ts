@@ -1,5 +1,6 @@
 import quizService from "./quiz-service";
-import { config } from "../keys/config";
+// @ts-ignore
+import { config } from "../keys/config.ts";
 import axios from "axios";
 
 var admin = require("firebase-admin");
