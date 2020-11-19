@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import './QuestionCard.scss';
 
-type QuestionCardProps = {question: Record<string, unknown>, onAnswer: void, disabledAnswers: boolean}; // This any is not correct
+type QuestionCardProps = { question: Record<string, unknown>, onAnswer: void, disabledAnswers: boolean }; // This any is not correct
 
 function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps) {
   const correctAnswer = question.answer // THIS WILL BE CHANGES FROM ARRAY TO STRING( changed !!!)
@@ -20,7 +20,7 @@ function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps
   console.log(disabledAnswers)
 
   useEffect(() => {
-    if(chosen) {
+    if (chosen) {
       onAnswer(chosen)
       setChosen(null)
     }
@@ -36,8 +36,8 @@ function QuestionCard({ question, onAnswer, disabledAnswers }: QuestionCardProps
             return (
               <span key={opt} value={opt}>
                 <span className={`option ${disabledAnswers && 'disabled'}`} >
-                <input name={'choice' + i} disabled={disabledAnswers} id={'choice' + i} onChange={handleCheck} type="radio" value={opt} />
-                <label htmlFor={'choice' + i}>{value}</label>
+                  <input name={'choice' + i} disabled={disabledAnswers} id={'choice' + i} onChange={handleCheck} type="radio" value={value} />
+                  <label htmlFor={'choice' + i}>{value}</label>
                 </span>
               </span>
             )
