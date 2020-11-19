@@ -1,12 +1,12 @@
 # Files that should be added to this folder:
 
-- **config.ts**
-- **serviceAccount.json**
+- **config.JS**
+- **serviceAccount.JSON**
 
 ### config.ts template:
 
 ```
-export const config = {
+module.exports = {
     databaseURL: "~DATABASE_URL~",
     apiKey: "~API_KEY~",
     authDomain: "~AUTH_DOMAIN~",
