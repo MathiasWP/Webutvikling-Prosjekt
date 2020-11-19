@@ -68,6 +68,9 @@ router.post("/categories", async (request, response) => {
     }
 })
 
+
+
+
 router.post('/getquizes', async (request, response) => {
     const body = request.body;
     const { category, token } = body.data;
@@ -87,7 +90,13 @@ router.get('/question-categories', (request, response) => {
         .catch(error => response.status(500).send(error))
 
 })
+router.get('/qqq', (request, response) => {
+    quizService
+        .getqqq()
+        .then(data => response.send(data))
+        .catch(error => response.status(500).send(error))
 
+})
 
 router.post('/submitquiz', (request, response) => {
 

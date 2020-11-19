@@ -85,6 +85,11 @@ class QuizService {
     return axios.get('/question-categories').then((response) => response.data.categories);
   }
 
+  getqqq() {
+    return axios.get('/qqq').then((response) => response.data);
+  }
+
+
   submitQuiz(quizData) {
     return axios.post('/submitQuiz', quizData)
       .then((response: { data: any }) => response.data)
@@ -150,6 +155,8 @@ class QuizService {
       throw Error(error.message)
     }
   }
+
+
 
   async findQuizesByCategory(category: number) {
     try {

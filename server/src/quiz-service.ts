@@ -66,6 +66,11 @@ class QuizService {
       });
   };
 
+  async getqqq() {
+    const qqq = await db.collection("quizes").get()
+    return qqq.docs.map(doc=>doc.data());
+  };
+
 
   submitQuiz(quizData) {
     let autoID = db.collection("quizes").doc().id;
@@ -227,6 +232,10 @@ class QuizService {
     }
   }
 
+
+
+
+
   async findQuizesByCategory(category: number, token: { i: string }) {
     try {
       const isAllowed = await adminAuth.verifyIdToken(token.i)
@@ -263,6 +272,9 @@ class QuizService {
     const doc = await ref.get();
     return doc.data()
   }
+
+  
+
 
 
   async addUserToQuizRoom(token: { i: string }, data, roomId) {
