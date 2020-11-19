@@ -1,6 +1,7 @@
 import quizService from "./quiz-service";
-import * as config from "../keys/config.js";
+import firebaseConfig from '../keys/config.json'; 
 import axios from "axios";
+const config = JSON.parse(JSON.stringify(firebaseConfig));
 var admin = require("firebase-admin");
 
 // enter the UID of a firebase authentication user

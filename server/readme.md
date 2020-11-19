@@ -9,9 +9,9 @@
 5. Install `npm i firebase-tools -g`
 6. Run `firebase login`
 7. Run `firebase init firestore`
-8. Add a config.ts and serviceAccount.json file in the [./keys](https://github.com/MathiasWP/Webutvikling-Prosjekt/tree/master/server/keys) directory.
-   - config.JS: Export the firebaseConfig object that you get (https://firebase.google.com/docs/web/setup#config-object)
-   - serviceAccount.JSON: Must be the json file that you can download under "Service Accounts" on the "Settings" page of your firebase project.
+8. Add a config.json and serviceAccount.json file in the [./keys](https://github.com/MathiasWP/Webutvikling-Prosjekt/tree/master/server/keys) directory.
+   - config.json: Export the firebaseConfig object that you get and set it in a JSON-object (https://firebase.google.com/docs/web/setup#config-object)
+   - serviceAccount.json: Must be the json file that you can download under "Service Accounts" on the "Settings" page of your firebase project.
 
 ## Starting server
 
