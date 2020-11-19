@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import ActiveRooms from '../components/ActiveRooms/ActiveRooms'
 import Button from '../components/Button/Button';
+import QuizPreviewCard from '../components/QuizPreviewCard/QuizPreviewCard';
 import Select from '../components/Select/Select';
 import quizService from '../service/quiz-service'
 import { store } from '../store/store';
@@ -81,13 +82,7 @@ function CreateGroupRoom() {
                 <div className="quizes-found">
                   {quizes.map(quiz => {
                     return (
-                      <section key={quiz.id} className="quiz-preview" onClick={() => createQuizRoom(quiz.id)}>
-                        <h4>{quiz.name}</h4>
-                        <h5>Spørsmål:</h5>
-                        <ol>{Object.entries(quiz.questions).map(([key, value]) => {
-                          return (<li key={key}>{value.question}</li>)
-                        })}</ol>
-                      </section>
+                      <QuizPreviewCard onClick={() => createQuizRoom(quiz.id)} key={quiz.id} quiz={quiz}/>
                     )
                   })}
                 </div>

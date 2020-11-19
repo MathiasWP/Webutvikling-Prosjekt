@@ -1,7 +1,37 @@
 .SinglePlayer {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 3rem;
+  text-align: center;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
+
+  h2 {
+    font-size: 6rem;
   }
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  .category {
+    background-color: white;
+    padding: 1rem;
+    margin: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 200ms;
+
+    &:hover {
+      background-color: rgb(247, 168, 23);
+    }
+  }
+}
+
+.quizes {
+  margin-bottom: 10rem;
+}

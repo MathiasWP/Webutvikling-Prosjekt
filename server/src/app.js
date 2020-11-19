@@ -1,9 +1,14 @@
-import express from 'express';
-import quizRouter from './quiz-router';
-import livereload from 'livereload';
-import connectLivereload from 'connect-livereload';
-import path from 'path';
+const express = require('express');
+const quizRouter = require('./quiz-router');
+const livereload = require('livereload');
+const connectLivereload = require('connect-livereload');
+const path = require('path');
 
+/**
+ * NOTE:
+ * There is a bug with importing .ts files (https://l.messenger.com/l.php?u=https%3A%2F%2Fgithub.com%2FMicrosoft%2FTypeScript%2Fissues%2F27481&h=AT0OSFV9KMgv2JlsmMI6Wf_s-9lUyWaxu1RLPR1WbQnagQIHJ9n9V_emd7vsrAvBXOBCoGmDgdJoWy65kdfPGwrIYsBFFzsYraTtOyKydcHpSfRYv2pde2PE4kcBYHdmK-SLi4ZWvV0)
+ * Therefore this has to be a JavaScript file, we hope that's okay.
+ */
 
 const CLIENT_DIR = '../../../client/public'; // This is relative server/dist/src
 const CLIENT_DIR_STATIC = '../../../client/public//static'; // This is relative server/dist/src
@@ -41,4 +46,4 @@ app.get('/*/', function (req, res) {
   res.sendFile('index.html', { root: path.join(__dirname, CLIENT_DIR) });
 });
 
-export default app;
+module.exports = app;

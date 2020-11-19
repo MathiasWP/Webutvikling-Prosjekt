@@ -10,6 +10,10 @@
     border: 2px solid rgb(127, 189, 247);
   }
 
+  :placeholder-shown {
+    color: black;
+  }
+
   &:focus,
   &:active {
     border: 2px solid rgb(238, 205, 20);
