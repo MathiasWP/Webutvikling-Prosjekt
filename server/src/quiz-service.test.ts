@@ -1,5 +1,5 @@
 import quizService from "./quiz-service";
-import config from "../keys/config.js";
+import * as config from "../keys/config.js";
 import axios from "axios";
 
 var admin = require("firebase-admin");
