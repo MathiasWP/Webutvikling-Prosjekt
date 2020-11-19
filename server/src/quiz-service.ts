@@ -65,12 +65,11 @@ class QuizService {
       });
   };
 
-  async getqqq() {
-    const qqq = await db.collection("quizes").get()
-    return qqq.docs.map(doc=>doc.data());
+  async getAllQuizes() {
+    const quizes = await db.collection("quizes").get()
+    return quizes.docs.map(doc=>doc.data());
   };
 
-  
 
   submitQuiz(quizData) {
     let autoID = db.collection("quizes").doc().id;

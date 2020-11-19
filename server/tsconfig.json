@@ -12,5 +12,5 @@
   },
   "lib": ["es2015"],
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
+  "include": ["./src/**/*.tsx", "./src/**/*.ts", "./keys/*.ts"]
 }

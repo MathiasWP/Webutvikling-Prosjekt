@@ -91,9 +91,9 @@ router.get('/question-categories', (request, response) => {
         .catch(error => response.status(500).send(error))
 
 })
-router.get('/qqq', (request, response) => {
+router.get('/getAllQuizes', (request, response) => {
     quizService
-        .getqqq()
+        .getAllQuizes()
         .then(data => response.send(data))
         .catch(error => response.status(500).send(error))
 

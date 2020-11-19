@@ -41,8 +41,4 @@ app.get('/*/', function (req, res) {
   res.sendFile('index.html', { root: path.join(__dirname, CLIENT_DIR) });
 });
 
-
-
-
-
 export default app;

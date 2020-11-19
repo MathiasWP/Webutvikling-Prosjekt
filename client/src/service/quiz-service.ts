@@ -16,7 +16,6 @@ class QuizService {
     } catch (error) {
       throw Error(error.message)
     }
-
   }
 
   async addUserToDatabase(user: any) {
@@ -65,7 +64,8 @@ class QuizService {
       const response = await firebase.auth().signInWithEmailAndPassword(email, password);
       return response;
     } catch (error) {
-      throw Error(error)
+      throw Error(error);
+      
     }
   }
 
@@ -85,12 +85,13 @@ class QuizService {
     return axios.get('/question-categories').then((response) => response.data.categories);
   }
 
-  getqqq() {
-    return axios.get('/qqq').then((response) => response.data);
+  getAllQuizes() {
+    return axios.get('/getAllQuizes')
+    .then((response) => response.data)
+    .catch(error => console.error(error));
   }
 
-
-  submitQuiz(quizData) {
+  submitQuiz(quizData: any) {
     return axios.post('/submitQuiz', quizData)
       .then((response: { data: any }) => response.data)
       .catch(error => console.error(error))
@@ -104,8 +105,6 @@ class QuizService {
     return axios.put('/updateQuiz/' + quizId, newQuestions)
       .then((response) => response.data)
       .catch(error => console.error(error))
-
-
   }
 
   deleteQuiz(quizId: string) {

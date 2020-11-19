@@ -164,10 +164,10 @@ function UserProfile() {
                                         Username: <Input value={username} onChange={(e) => setUsername(e.currentTarget.value)} />
                                     </div>
                                     <div className="row">
-                                        Password: <Input value={password} onChange={(e) => setPassword(e.currentTarget.value)} />
+                                        Password: <Input value={password} type="password" onChange={(e) => setPassword(e.currentTarget.value)} />
                                     </div>
                                     {
-                                        error.error && error.message &&
+                                        error.error || error.message &&
                                         <div id="error-message" >{error.message}</div>
                                     }
                                     <div id="buttons-wrapper">
